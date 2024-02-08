@@ -32,6 +32,26 @@ class Tarea{
     this.objetivo,
     this.pasos
   );
+
+  factory Tarea.fromMap(Map<String, dynamic> map){
+    return Tarea(
+      map['id'], 
+      map['nombre'], 
+      map['fecha'], 
+      map['dificultad'], 
+      map['tiempo'],
+      map['objetivo'],
+      map['pasos']
+    );
+  }
+}
+
+class Paso{
+  int id;
+  int idTarea;
+  String descripcion;
+
+  Paso(this.id, this.idTarea, this.descripcion);
 }
 
 class TareaColegio extends Tarea{

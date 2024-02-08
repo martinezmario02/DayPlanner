@@ -1,6 +1,5 @@
 import 'package:app_tdah/view/menu.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'view/registro.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'App',
       home: Inicio(),
     );
@@ -21,6 +20,8 @@ class MyApp extends StatelessWidget {
 }
 
 class Inicio extends StatefulWidget{
+  const Inicio({super.key});
+
   @override
   _InicioState createState() => _InicioState();
 }
@@ -30,37 +31,37 @@ class _InicioState extends State<Inicio>{
   Widget build(BuildContext context){
     return Scaffold(
       body: Container( // contenedor para separar el color de los márgenes
-        color: Color.fromARGB(255, 240, 198, 144),
+        color: const Color.fromARGB(255, 240, 198, 144),
         child: Container(
-            margin: EdgeInsets.all(30.0),
+            margin: const EdgeInsets.all(30.0),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('INICIO DE SESIÓN', style: TextStyle(fontFamily: 'Titulos', fontSize: 40, color: Color.fromARGB(255, 255, 118, 39))),
-                  SizedBox(height: 30),
+                  const Text('INICIO DE SESIÓN', style: TextStyle(fontFamily: 'Titulos', fontSize: 40, color: Color.fromARGB(255, 255, 118, 39))),
+                  const SizedBox(height: 30),
                   
                   TextField(
                     decoration: InputDecoration(
-                      prefixIcon: Image.asset('../assets/icons/user.png', width: 10, height: 10),
+                      prefixIcon: Image.asset('assets/icons/user.png', width: 10, height: 10),
                       labelText: 'Correo electrónico', 
-                      border: OutlineInputBorder(), // para que se vean los bordes
+                      border: const OutlineInputBorder(), // para que se vean los bordes
                       fillColor: Colors.white,
                       filled: true,
                     ),  
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   
                   TextField(
                     decoration: InputDecoration(
-                      prefixIcon: Image.asset('../assets/icons/contrasena.png', width: 10, height: 10),
+                      prefixIcon: Image.asset('assets/icons/contrasena.png', width: 10, height: 10),
                       labelText: 'Contraseña', 
-                      border: OutlineInputBorder(), // para que se vean los bordes
+                      border: const OutlineInputBorder(), // para que se vean los bordes
                       fillColor: Colors.white,
                       filled: true,
                     ),  
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   
                   ElevatedButton(
                     onPressed: (){
@@ -68,24 +69,22 @@ class _InicioState extends State<Inicio>{
                       //
                       //
                       //
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPrincipal()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 255, 118, 39)),
-                    child: Text('ACEPTAR')
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
+                    child: const Text('ACEPTAR')
                   ),
                   
-                  SizedBox(height: 40),
-                  Text('¿Aún no te has registrado?', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39), fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 40),
+                  const Text('¿Aún no te has registrado?', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39), fontWeight: FontWeight.bold)),
                   
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   TextButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegistroUsuario()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistroUsuario()));
                     }, 
-                    child: Text('Regístrate aquí', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39), decoration: TextDecoration.underline))
+                    child: const Text('Regístrate aquí', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39), decoration: TextDecoration.underline))
                   )
-
-
                 ],
               )
             ),
