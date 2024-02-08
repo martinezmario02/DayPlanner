@@ -22,7 +22,8 @@ class _AgendaState extends State<Agenda> {
   DateTime dia = DateTime.now();
 
   Future<void> getTareas() async{
-    var t = await controlTareas.tareas();
+    String fecha = dia.year.toString() + '-' + dia.month.toString().padLeft(2, '0') + '-' + dia.day.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    var t = await controlTareas.tareasDia(fecha);
     
     setState(() {
       tareas = t;
@@ -36,14 +37,18 @@ class _AgendaState extends State<Agenda> {
     setState(() {
       tareas = t;
 
-      if(tipo == 0) tipoT = 'tareascolegio';
-      else if(tipo == 1) tipoT = 'tareasocio';
-      else tipoT = 'tareashogar';
+      if(tipo == 0){ 
+        tipoT = 'tareascolegio';
+      } else if(tipo == 1){ 
+        tipoT = 'tareasocio';
+      }else{
+        tipoT = 'tareashogar';
+      }
     });
   }
 
-  void actualizarDia(DateTime dia){
-    switch(dia.weekday){
+  void actualizarDia(DateTime diaNuevo){
+    switch(diaNuevo.weekday){
       case DateTime.monday: controlDia.text = 'LUNES'; break;
       case DateTime.tuesday: controlDia.text = 'MARTES'; break;
       case DateTime.wednesday: controlDia.text = 'MIÉRCOLES'; break;
@@ -52,6 +57,8 @@ class _AgendaState extends State<Agenda> {
       case DateTime.saturday: controlDia.text = 'SÁBADO'; break;
       case DateTime.sunday: controlDia.text = 'DOMINGO'; break;
     }
+    dia = diaNuevo;
+    getTareas();
   }
 
   @override
@@ -83,10 +90,10 @@ class _AgendaState extends State<Agenda> {
                 children: [
                   IconButton(
                     onPressed: (){
-                      dia = dia.subtract((Duration(days: 1)));
+                      dia = dia.subtract((const Duration(days: 1)));
                       actualizarDia(dia);
                     },
-                    icon: Icon(Icons.arrow_back)
+                    icon: const Icon(Icons.arrow_back)
                   ),
                   const SizedBox(width: 10),
                   Flexible(
@@ -99,10 +106,10 @@ class _AgendaState extends State<Agenda> {
                   const SizedBox(width: 10),
                   IconButton(
                     onPressed: (){
-                      dia = dia.add((Duration(days: 1)));
+                      dia = dia.add((const Duration(days: 1)));
                       actualizarDia(dia);
                     },
-                    icon: Icon(Icons.arrow_forward)
+                    icon: const Icon(Icons.arrow_forward)
                   ),
                 ],
               ),
@@ -139,7 +146,7 @@ class _AgendaState extends State<Agenda> {
                                         child: Center(child: Image.asset(imagen,  width: 40, height: 40))
                                       );
                                     } else {
-                                      return CircularProgressIndicator();
+                                      return const CircularProgressIndicator();
                                     }
                                   }
                                 ),
@@ -157,9 +164,13 @@ class _AgendaState extends State<Agenda> {
                                       if(snapshot.connectionState == ConnectionState.done){
                                         final dif = snapshot.data!;
                                         Color fondo;
-                                        if(dif=='alta') fondo = Colors.red;
-                                        else if(dif=='media') fondo = Colors.orange;
-                                        else fondo = Colors.green;
+                                        if(dif=='alta'){
+                                          fondo = Colors.red;
+                                        }else if(dif=='media'){ 
+                                          fondo = Colors.orange;
+                                        }else{
+                                          fondo = Colors.green;
+                                        }
 
                                         return Container(
                                           height: 70,
@@ -167,7 +178,7 @@ class _AgendaState extends State<Agenda> {
                                           child: Center(child: Text(tareas[index][tipoT]['tiempo'], style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                                         );
                                       } else {
-                                        return CircularProgressIndicator();
+                                        return const CircularProgressIndicator();
                                       }
                                     }
                                   )

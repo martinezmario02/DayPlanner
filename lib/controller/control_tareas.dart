@@ -9,6 +9,10 @@ class ControladorTareas{
     return await db.tareas();
   }
 
+  Future<List<Map<String, dynamic>>> tareasDia(String dia) async{
+    return await db.tareasDia(dia);
+  }
+
   Future<List<Map<String, dynamic>>> tareasTipo(int tipo) async{
     return await db.tareasTipo(tipo);
   }

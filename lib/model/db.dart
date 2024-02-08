@@ -35,6 +35,11 @@ class DB{
     return await ejecutar("select * from tareas");
   }
 
+  Future<List<Map<String, dynamic>>> tareasDia(String dia) async{
+    print(dia);
+    return await ejecutar("select * from tareas where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+  }
+
   Future<List<Map<String, dynamic>>> tareasTipo(int tipo) async{
     if(tipo == 0) return await ejecutar("select * from tareascolegio");
     else if(tipo == 1) return await ejecutar("select * from tareasocio");
