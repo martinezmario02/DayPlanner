@@ -1,4 +1,5 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
+import 'package:app_tdah/view/a%C3%B1adir_tareas/nuevo_colegio.dart';
 import 'package:flutter/material.dart';
 
 class NuevaTarea extends StatefulWidget{
@@ -33,7 +34,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                     width: 230,
                     child: ElevatedButton(
                       onPressed: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => NuevoColegio()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),

@@ -32,7 +32,8 @@ class _AgendaState extends State<Agenda> {
   }
 
   Future<void> getTareasTipo(int tipo) async{ // 0-colegio, 1-ocio, 2-hogar
-    var t = await controlTareas.tareasTipo(tipo);
+    String fecha = dia.year.toString() + '-' + dia.month.toString().padLeft(2, '0') + '-' + dia.day.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    var t = await controlTareas.tareasTipoDia(tipo, fecha);
     
     setState(() {
       tareas = t;
@@ -45,6 +46,23 @@ class _AgendaState extends State<Agenda> {
         tipoT = 'tareashogar';
       }
     });
+  }
+
+  Future<List<dynamic>> getPasos(String tipo, int id) async{
+    var resultado;
+    if(tipo == 'tareascolegio') resultado = await controlTareas.getPasosColegio(id); 
+    else if(tipo == 'tareasocio') resultado = await controlTareas.getPasosOcio(id);
+    else resultado = await controlTareas.getPasosHogar(id);
+
+    // return dificultad;
+    List<dynamic> pasos = [];
+    for(var paso in resultado){
+      for(var valor in paso.values){
+        pasos.add(valor);
+      }
+    }
+    
+    return pasos;
   }
 
   void actualizarDia(DateTime diaNuevo){
@@ -83,7 +101,7 @@ class _AgendaState extends State<Agenda> {
         child: Center(
           child: Column(
             children: [
-              // Indicador del día:
+              // Información:
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -113,13 +131,58 @@ class _AgendaState extends State<Agenda> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
               // Tareas a realizar:
+              Table(
+                columnWidths: {
+                  0: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14), // se aplica al 14% de la pantalla
+                  1: FixedColumnWidth(MediaQuery.of(context).size.width * 0.50), // se aplica al 54% de la pantalla
+                  2: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14), 
+                  3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14),
+                },
+                children: [
+                  const TableRow(
+                    children: [
+                      Center(child: Text('Tipo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Nombre', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Iniciar', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                    ]
+                  )
+                ],
+              ),
+              
               Expanded(
                 child: ListView.builder(
                   itemCount: tareas.length,
                   itemBuilder: (BuildContext context, int index){
+                    // Información de la tarea:
+                    Tarea tarea = Tarea(
+                      tareas[index][tipoT]['id'], 
+                      tareas[index][tipoT]['nombre'], 
+                      tareas[index][tipoT]['fecha'].toString(), 
+                      tareas[index][tipoT]['dificultad'],
+                      double.parse(tareas[index][tipoT]['tiempo']),
+                      tareas[index][tipoT]['objetivo'],
+                      tareas[index][tipoT]['descripcion'],
+                      tareas[index][tipoT]['tipo_tarea'],
+                      tareas[index][tipoT]['estado'],
+                      double.parse(tareas[index][tipoT]['tiempo_actual']),
+                      tareas[index][tipoT]['paso_actual'],
+                      tareas[index][tipoT]['id_usuario']
+                    );
+
+                    // Duración:
+                    String duracion;
+                    if(tarea.tiempo >= 60.0){
+                      duracion = (tarea.tiempo/60.0).toStringAsFixed(0) + 'h';
+                    } else if(tarea.tiempo < 1){
+                      duracion = (tarea.tiempo*60.0).toStringAsFixed(0) + 's';
+                    } else{
+                      duracion = tarea.tiempo.toStringAsFixed(0) + 'm';
+                    }
+
                     return Column(
                       children: [
                         const SizedBox(height: 15),
@@ -135,7 +198,7 @@ class _AgendaState extends State<Agenda> {
                             TableRow(
                               children: [
                                 FutureBuilder<String>(
-                                  future: getImagen(tareas[index][tipoT]['id']),
+                                  future: getImagen(tarea.id),
                                   builder: (context, snapshot){
                                     if(snapshot.connectionState == ConnectionState.done){
                                       final imagen = snapshot.data!;
@@ -146,7 +209,7 @@ class _AgendaState extends State<Agenda> {
                                         child: Center(child: Image.asset(imagen,  width: 40, height: 40))
                                       );
                                     } else {
-                                      return const CircularProgressIndicator();
+                                      return const CircularProgressIndicator(color: const Color.fromARGB(255, 255, 118, 39));
                                     }
                                   }
                                 ),
@@ -154,12 +217,12 @@ class _AgendaState extends State<Agenda> {
                                   child: Container(
                                     height: 70,
                                     color: Colors.white,
-                                    child: Center(child: Text(tareas[index][tipoT]['nombre'], style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                    child: Center(child: Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                                   )
                                 ),
                                 TableCell(
                                   child: FutureBuilder<String>(
-                                    future: getDificultad(tareas[index][tipoT]['id']),
+                                    future: getDificultad(tarea.id),
                                     builder: (context, snapshot){
                                       if(snapshot.connectionState == ConnectionState.done){
                                         final dif = snapshot.data!;
@@ -175,33 +238,43 @@ class _AgendaState extends State<Agenda> {
                                         return Container(
                                           height: 70,
                                           color: fondo,
-                                          child: Center(child: Text(tareas[index][tipoT]['tiempo'], style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                          child: Center(child: Text(duracion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                                         );
                                       } else {
-                                        return const CircularProgressIndicator();
+                                        return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
                                       }
                                     }
                                   )
                                 ),
                                 TableCell(
-                                  child: Container(
-                                    height: 70,
-                                    child: ElevatedButton(
-                                      onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => TareaInicio(descripcion: tareas[index]['tareas']['nombre'])));
-                                      },
-                                      style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                      child: Center(child: Image.asset('assets/icons/play.png',  width: 40, height: 40)),
-                                    ),
+                                child: FutureBuilder<List<dynamic>>(
+                                    future: getPasos(tarea.tipo_tarea, tarea.id),
+                                    builder: (context, snapshot){
+                                      if(snapshot.connectionState == ConnectionState.done){
+                                        var pasos = snapshot.data!;
+
+                                        return Container(
+                                          height: 70,
+                                          child: ElevatedButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => TareaInicio(tarea: tarea, pasos: pasos)));
+                                            },
+                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                                            child: Center(child: Image.asset('assets/icons/play.png',  width: 40, height: 40)),
+                                          ),
+                                        );
+                                      } else {
+                                        return const CircularProgressIndicator(color: const Color.fromARGB(255, 255, 118, 39));
+                                      }
+                                    }
                                   )
-                                ),
+                                )
                               ]
                             )
                           ],
                         )
                       ],
                     );
-                    
                   },
                 )
               ),

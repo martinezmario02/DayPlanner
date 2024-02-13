@@ -4,20 +4,23 @@ import '../../model/tarea.dart';
 import 'tarea_tiempo.dart';
 
 class TareaInicio extends StatefulWidget{
-  final String descripcion;
-  const TareaInicio({super.key, required this.descripcion});
+  final Tarea tarea;
+  final List<dynamic> pasos;
+  const TareaInicio({super.key, required this.tarea, required this.pasos});
   
   @override
   _TareaInicioState createState() => _TareaInicioState();
 }
 
 class _TareaInicioState extends State<TareaInicio> {
-  late String descripcion;
+  late Tarea tarea;
+  late List<dynamic> pasos;
 
   @override
   void initState(){
     super.initState();
-    descripcion = widget.descripcion;
+    tarea = widget.tarea;
+    pasos = widget.pasos;
   } 
 
   @override
@@ -46,35 +49,32 @@ class _TareaInicioState extends State<TareaInicio> {
                   // Descripción de la tarea:
                   TableRow(
                     children: [
-                      TableCell(
-                        child: Container(
-                          height: 70,
-                          child: const Center(child: Text('Descripción:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
-                        )
+                      Container(
+                        height: 70,
+                        child: const Center(child: Text('Descripción:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                       ),
-                      TableCell(
-                        child: Container(
-                          height: 70,
-                          color: Colors.white,
-                          child: Center(child: Text(descripcion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
-                        )
+                      Container(
+                        height: 70,
+                        color: Colors.white,
+                        child: Center(child: Text(tarea.descripcion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                       ),
                     ]
                   ),
                   // Pasos de la tarea:
                   TableRow(
                     children: [
-                      TableCell(
-                        child: Container(
-                          height: 70,
-                          child: const Center(child: Text('Pasos:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
-                        )
+                      Container(
+                        height: 70,
+                        child: const Center(child: Text('Pasos:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))    
                       ),
-                      TableCell(
-                        child: Container(
-                          height: 70,
-                          color: Colors.white,
-                          child: Center(child: Text('...', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                      Container(
+                        height: 200,
+                        color: Colors.white,
+                        child: ListView.builder(
+                          itemCount: pasos.length,
+                          itemBuilder: (context, index){
+                            return ListTile(title: Text('Paso '+pasos[index]['id'].toString()+': '+pasos[index]['descripcion'], style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)));
+                          },
                         )
                       ),
                     ]
@@ -85,12 +85,12 @@ class _TareaInicioState extends State<TareaInicio> {
 
               // Botón para empezar:
               ElevatedButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TareaTiempo()));
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                    child: const Text('EMPEZAR')
-                  ),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TareaTiempo(pasos: pasos, tarea: tarea)));
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
+                child: const Text('EMPEZAR')
+              ),
             ],
           )
         ),

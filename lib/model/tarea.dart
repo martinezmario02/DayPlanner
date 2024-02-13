@@ -1,27 +1,16 @@
-enum Dificultad{
-  alta, media, baja
-}
-
-enum TipoColegio{
-  estudio, deberes
-}
-
-enum TipoOcio{
-  jugar, deporte
-}
-
-enum TipoHogar{
-  limpiar, ordenar
-}
-
 class Tarea{
   int id;
   String nombre;
   String fecha;
-  Dificultad dificultad;
+  String dificultad;
   double tiempo;
   String objetivo;
-  List<String> pasos = [];
+  String descripcion;
+  String tipo_tarea;
+  String estado;
+  double tiempo_actual;
+  int paso_actual;
+  int id_usuario;
 
   Tarea(
     this.id, 
@@ -30,7 +19,12 @@ class Tarea{
     this.dificultad, 
     this.tiempo,
     this.objetivo,
-    this.pasos
+    this.descripcion,
+    this.tipo_tarea,
+    this.estado,
+    this.tiempo_actual,
+    this.paso_actual,
+    this.id_usuario
   );
 
   factory Tarea.fromMap(Map<String, dynamic> map){
@@ -41,7 +35,12 @@ class Tarea{
       map['dificultad'], 
       map['tiempo'],
       map['objetivo'],
-      map['pasos']
+      map['descripcion'],
+      map['tipo_tarea'],
+      map['estado'],
+      map['tiempo_actual'],
+      map['paso_actual'],
+      map['id_usuario']
     );
   }
 }
@@ -56,53 +55,62 @@ class Paso{
 
 class TareaColegio extends Tarea{
   String asignatura;
-  TipoColegio tipo;
-  String temario;
+  String tipo;
 
   TareaColegio(
     int id, 
     String nombre, 
     String fecha, 
-    Dificultad dificultad, 
+    String dificultad, 
     double tiempo,
     String objetivo,
-    List<String> pasos,
+    String descripcion,
+    String tipo_tarea,
+    String estado,
+    double tiempo_actual,
+    int paso_actual,
+    int id_usuario,
     this.asignatura,
     this.tipo,
-    this.temario
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, pasos);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
 }
 
 class TareaOcio extends Tarea{
-  String descripcion;
-  TipoOcio tipo;
+  String tipo;
 
   TareaOcio(
     int id, 
     String nombre, 
     String fecha, 
-    Dificultad dificultad, 
+    String dificultad, 
     double tiempo,
     String objetivo,
-    List<String> pasos,
-    this.descripcion,
+    String descripcion,
+    String tipo_tarea,
+    String estado,
+    double tiempo_actual,
+    int paso_actual,
+    int id_usuario,
     this.tipo
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, pasos);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
 }
 
 class TareaHogar extends Tarea{
-  String descripcion;
-  TipoHogar tipo;
+  String tipo;
 
   TareaHogar(
     int id, 
     String nombre, 
     String fecha, 
-    Dificultad dificultad, 
+    String dificultad, 
     double tiempo,
     String objetivo,
-    List<String> pasos,
-    this.descripcion,
+    String descripcion,
+    String tipo_tarea,
+    String estado,
+    double tiempo_actual,
+    int paso_actual,
+    int id_usuario,
     this.tipo
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, pasos);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
 }
