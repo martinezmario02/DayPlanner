@@ -36,7 +36,7 @@ class _TareaPasoState extends State<TareaPaso> {
     pasoActual = tarea.paso_actual;
     totalPasos = pasos.length;
 
-    temporizador = Timer.periodic(Duration(seconds: 1), (timer) {
+    temporizador = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         valorActual += 1.0 / valorFinal;
       });
@@ -112,9 +112,9 @@ class _TareaPasoState extends State<TareaPaso> {
 
               // Información del paso:
               const SizedBox(height: 60),
-              Text('PASO '+(pasoActual).toString(), style: TextStyle(fontFamily: 'Titulos', fontSize: 50, color: Color.fromARGB(255, 255, 118, 39))),
+              Text('PASO $pasoActual', style: const TextStyle(fontFamily: 'Titulos', fontSize: 50, color: Color.fromARGB(255, 255, 118, 39))),
               const SizedBox(height: 40),
-              Text(pasos[pasoActual-1]['descripcion'], style: TextStyle(fontFamily: 'Cuerpo', fontSize: 30, color: Colors.black)),
+              Text(pasos[pasoActual-1]['descripcion'], style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 30, color: Colors.black)),
               const SizedBox(height: 60),
 
               // Botones:
@@ -124,7 +124,7 @@ class _TareaPasoState extends State<TareaPaso> {
                   ElevatedButton(
                     onPressed: (){
                       guardarProgreso();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPrincipal()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
                     child: const Text('DESCANSAR')
@@ -136,7 +136,7 @@ class _TareaPasoState extends State<TareaPaso> {
                         siguientePaso();
                       } else{
                         finalizarTarea();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MenuPrincipal())); 
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal())); 
                       } 
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),

@@ -1,4 +1,3 @@
-import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
 import 'package:app_tdah/view/a%C3%B1adir_tareas/nuevo_colegio.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +33,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                     width: 230,
                     child: ElevatedButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NuevoColegio()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevoColegio()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
@@ -46,7 +45,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   ),
                   const SizedBox(height: 10),
 
-                  Container(
+                  SizedBox(
                     height: 230,
                     width: 230,
                     child: ElevatedButton(
@@ -67,7 +66,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 230,
                     width: 230,
                     child: ElevatedButton(
@@ -84,7 +83,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   ),
                   const SizedBox(height: 10),
 
-                  Container(
+                  SizedBox(
                     height: 230,
                     width: 230,
                     child: ElevatedButton(

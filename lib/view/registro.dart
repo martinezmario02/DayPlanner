@@ -20,8 +20,8 @@ class _RegistroState extends State<RegistroUsuario> {
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
-        child: Center(
-          child: const Text('a')
+        child: const Center(
+          child: Text('a')
         ),
       )
     );

@@ -1,4 +1,3 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:flutter/material.dart';
 import '../../model/tarea.dart';
 import 'tarea_tiempo.dart';
@@ -49,23 +48,23 @@ class _TareaInicioState extends State<TareaInicio> {
                   // Descripción de la tarea:
                   TableRow(
                     children: [
-                      Container(
+                      const SizedBox(
                         height: 70,
-                        child: const Center(child: Text('Descripción:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                        child: Center(child: Text('Descripción:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                       ),
                       Container(
                         height: 70,
                         color: Colors.white,
-                        child: Center(child: Text(tarea.descripcion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                        child: Center(child: Text(tarea.descripcion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                       ),
                     ]
                   ),
                   // Pasos de la tarea:
                   TableRow(
                     children: [
-                      Container(
+                      const SizedBox(
                         height: 70,
-                        child: const Center(child: Text('Pasos:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))    
+                        child: Center(child: Text('Pasos:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))    
                       ),
                       Container(
                         height: 200,
@@ -73,7 +72,9 @@ class _TareaInicioState extends State<TareaInicio> {
                         child: ListView.builder(
                           itemCount: pasos.length,
                           itemBuilder: (context, index){
-                            return ListTile(title: Text('Paso '+pasos[index]['id'].toString()+': '+pasos[index]['descripcion'], style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)));
+                            final paso = pasos[index]['id'].toString();
+                            final descripcion = pasos[index]['descripcion'];
+                            return ListTile(title: Text('Paso $paso: $descripcion', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)));
                           },
                         )
                       ),

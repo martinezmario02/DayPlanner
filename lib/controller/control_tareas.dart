@@ -1,6 +1,5 @@
 import '../model/db.dart';
 import '../model/tarea.dart';
-import '../model/usuario.dart';
 
 DB db = DB();
 
@@ -62,9 +61,6 @@ class ControladorTareas{
   }
 
   // Guardar tareas en la bd:
-  // Future<void> guardarTareaColegio(String nombre, String asignatura, String fecha, double tiempo, String dificultad, String tipo, String descripcion, String objetivo) async{
-  //   return await db.guardarTareaColegio(nombre, asignatura, fecha, tiempo, dificultad, tipo, descripcion, objetivo);
-  // }
   Future<void> guardarTareaColegio(Tarea tarea, String asignatura, String tipo, List<String> pasos) async{
     return await db.guardarTareaColegio(tarea, asignatura, tipo, pasos);
   }

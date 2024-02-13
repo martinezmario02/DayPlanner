@@ -49,11 +49,13 @@ class _TareaTiempoState extends State<TareaTiempo> {
                 child: ListView.builder(
                   itemCount: pasos.length,
                   itemBuilder: (context, index){
+                    final paso = pasos[index]['id'].toString();
+                    final descripcion = pasos[index]['descripcion'];
                     return Column(
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text('Paso '+pasos[index]['id'].toString()+': '+pasos[index]['descripcion'], style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
+                          child: Text('Paso $paso: $descripcion', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
                         ),
                         const SizedBox(height: 10),
                         Row(

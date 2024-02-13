@@ -1,7 +1,5 @@
 import 'package:app_tdah/controller/control_tareas.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../model/tarea.dart';
 import 'tarea_inicio.dart';
 import '../consultas_tareas.dart';
@@ -22,7 +20,10 @@ class _AgendaState extends State<Agenda> {
   DateTime dia = DateTime.now();
 
   Future<void> getTareas() async{
-    String fecha = dia.year.toString() + '-' + dia.month.toString().padLeft(2, '0') + '-' + dia.day.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
     var t = await controlTareas.tareasDia(fecha);
     
     setState(() {
@@ -32,7 +33,10 @@ class _AgendaState extends State<Agenda> {
   }
 
   Future<void> getTareasTipo(int tipo) async{ // 0-colegio, 1-ocio, 2-hogar
-    String fecha = dia.year.toString() + '-' + dia.month.toString().padLeft(2, '0') + '-' + dia.day.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
     var t = await controlTareas.tareasTipoDia(tipo, fecha);
     
     setState(() {
@@ -50,9 +54,13 @@ class _AgendaState extends State<Agenda> {
 
   Future<List<dynamic>> getPasos(String tipo, int id) async{
     var resultado;
-    if(tipo == 'tareascolegio') resultado = await controlTareas.getPasosColegio(id); 
-    else if(tipo == 'tareasocio') resultado = await controlTareas.getPasosOcio(id);
-    else resultado = await controlTareas.getPasosHogar(id);
+    if(tipo == 'tareascolegio'){
+      resultado = await controlTareas.getPasosColegio(id); 
+    }else if(tipo == 'tareasocio'){
+      resultado = await controlTareas.getPasosOcio(id);
+    }else{
+      resultado = await controlTareas.getPasosHogar(id);
+    }
 
     // return dificultad;
     List<dynamic> pasos = [];
@@ -144,10 +152,10 @@ class _AgendaState extends State<Agenda> {
                 children: [
                   const TableRow(
                     children: [
-                      Center(child: Text('Tipo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Nombre', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Tiempo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Iniciar', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
+                      Center(child: Text('Iniciar', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
                     ]
                   )
                 ],
@@ -175,12 +183,16 @@ class _AgendaState extends State<Agenda> {
 
                     // Duración:
                     String duracion;
+                    String valor;
                     if(tarea.tiempo >= 60.0){
-                      duracion = (tarea.tiempo/60.0).toStringAsFixed(0) + 'h';
+                      valor = (tarea.tiempo/60.0).toStringAsFixed(0);
+                      duracion = '$valor h';
                     } else if(tarea.tiempo < 1){
-                      duracion = (tarea.tiempo*60.0).toStringAsFixed(0) + 's';
+                      valor = (tarea.tiempo*60.0).toStringAsFixed(0);
+                      duracion = '$valor s';
                     } else{
-                      duracion = tarea.tiempo.toStringAsFixed(0) + 'm';
+                      valor = tarea.tiempo.toStringAsFixed(0);
+                      duracion = '$valor m';
                     }
 
                     return Column(
@@ -209,7 +221,7 @@ class _AgendaState extends State<Agenda> {
                                         child: Center(child: Image.asset(imagen,  width: 40, height: 40))
                                       );
                                     } else {
-                                      return const CircularProgressIndicator(color: const Color.fromARGB(255, 255, 118, 39));
+                                      return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
                                     }
                                   }
                                 ),
@@ -264,7 +276,7 @@ class _AgendaState extends State<Agenda> {
                                           ),
                                         );
                                       } else {
-                                        return const CircularProgressIndicator(color: const Color.fromARGB(255, 255, 118, 39));
+                                        return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
                                       }
                                     }
                                   )

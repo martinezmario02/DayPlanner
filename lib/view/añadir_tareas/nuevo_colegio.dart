@@ -1,7 +1,4 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_pasos.dart';
-import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
-import 'package:app_tdah/view/consultas_tareas.dart';
-import 'package:app_tdah/view/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../model/tarea.dart';
@@ -83,7 +80,7 @@ class _NuevoColegioState extends State<NuevoColegio> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(alerta, style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.red)),
+                Text(alerta, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.red)),
                 const SizedBox(height: 20),
 
                 TextField(

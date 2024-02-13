@@ -109,22 +109,28 @@ class _AnadirTareaState extends State<AnadirTarea> {
                     DateTime fecha = DateTime.parse(tarea.fecha);
                     Duration dur = fecha.difference(DateTime.now());
                     String plazo;
+                    String dias;
                     if(dur.inDays == 0){
                       plazo = 'Hoy';
                     } else if(dur.inDays.isNegative){
                       plazo = 'Tarde';
                     } else{
-                      plazo = dur.inDays.toString()+' días';
+                      dias = dur.inDays.toString();
+                      plazo = '$dias días';
                     }
 
                     // Duración:
                     String duracion;
+                    String valor;
                     if(tarea.tiempo >= 60.0){
-                      duracion = (tarea.tiempo/60.0).toStringAsFixed(0) + 'h';
+                      valor = (tarea.tiempo/60.0).toStringAsFixed(0);
+                      duracion = '$valor h';
                     } else if(tarea.tiempo < 1){
-                      duracion = (tarea.tiempo*60.0).toStringAsFixed(0) + 's';
+                      valor = (tarea.tiempo*60.0).toStringAsFixed(0);
+                      duracion = '$valor s';
                     } else{
-                      duracion = tarea.tiempo.toStringAsFixed(0) + 'm';
+                      valor = tarea.tiempo.toStringAsFixed(0);
+                      duracion = '$valor m';
                     }
                     
                     return Column(
@@ -302,7 +308,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => NuevaTarea()));
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Center(child: Text("+", style: TextStyle(fontFamily: 'Titulos', fontSize: 60, color: Colors.black)))
+                              child: const Center(child: Text("+", style: TextStyle(fontFamily: 'Titulos', fontSize: 60, color: Colors.black)))
                             ),
                           )
                         ),

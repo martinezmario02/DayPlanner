@@ -1,6 +1,4 @@
-import 'package:path/path.dart';
 import 'package:postgres/postgres.dart';
-import 'usuario.dart';
 import 'tarea.dart';
 
 class DB{
@@ -42,16 +40,24 @@ class DB{
 
   // Devolver todas las tareas de un tipo concreto:
   Future<List<Map<String, dynamic>>> tareasTipo(int tipo) async{
-    if(tipo == 0) return await ejecutar("select * from tareascolegio");
-    else if(tipo == 1) return await ejecutar("select * from tareasocio");
-    else return await ejecutar("select * from tareashogar");
+    if(tipo == 0){
+      return await ejecutar("select * from tareascolegio");
+    }else if(tipo == 1){
+      return await ejecutar("select * from tareasocio");
+    }else{
+      return await ejecutar("select * from tareashogar");
+    }
   }
 
   // Devolver todas las tareas de un tipo y un día concreto:
   Future<List<Map<String, dynamic>>> tareasTipoDia(int tipo, String dia) async{
-    if(tipo == 0) return await ejecutar("select * from tareascolegio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
-    else if(tipo == 1) return await ejecutar("select * from tareasocio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
-    else return await ejecutar("select * from tareashogar where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+    if(tipo == 0){
+      return await ejecutar("select * from tareascolegio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+    }else if(tipo == 1){
+      return await ejecutar("select * from tareasocio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+    }else{
+      return await ejecutar("select * from tareashogar where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+    }
   }
 
   // Comprobaciones de tipo de la tarea:
@@ -100,16 +106,6 @@ class DB{
   }
 
   // Guardar tareas en la bd:
-  // Future<void> guardarTareaColegio(String nombre, String asignatura, String fecha, double tiempo, String dificultad, String tipo, String descripcion, String objetivo) async{
-  //   nombre = nombre.replaceAll("'", "''");
-  //   asignatura = asignatura.replaceAll("'", "''");
-  //   fecha = fecha.replaceAll("'", "''");
-  //   dificultad = dificultad.replaceAll("'", "''");
-  //   tipo = tipo.replaceAll("'", "''");
-  //   descripcion = descripcion.replaceAll("'", "''");
-  //   objetivo = objetivo.replaceAll("'", "''");
-  //   await ejecutar("insert into tareascolegio (nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, asignatura, tipo, id_usuario) values ('$nombre', TO_DATE('$fecha', 'YYYY-MM-DD'), '$dificultad', $tiempo, '$objetivo', '$descripcion', 'tareascolegio', '$asignatura', '$tipo', 1)");
-  // }
   Future<void> guardarTareaColegio(Tarea tarea, String asignatura, String tipo, List<String> pasos) async{
     // Extraigo los valores:
     final nombre = tarea.nombre.replaceAll("'", "''");

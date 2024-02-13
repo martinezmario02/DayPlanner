@@ -26,7 +26,7 @@ class _MenuState extends State<MenuPrincipal> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 230,
                 width: 230,
                 child: ElevatedButton(
@@ -53,7 +53,7 @@ class _MenuState extends State<MenuPrincipal> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 70,
                     width: 230,
                     child: ElevatedButton(
@@ -76,7 +76,7 @@ class _MenuState extends State<MenuPrincipal> {
                   ),
                   const SizedBox(height: 10),
 
-                  Container(
+                  SizedBox(
                     height: 70,
                     width: 230,
                     child: ElevatedButton(
@@ -99,7 +99,7 @@ class _MenuState extends State<MenuPrincipal> {
                   ),
                   const SizedBox(height: 10),
                   
-                  Container(
+                  SizedBox(
                     height: 70,
                     width: 230,
                     child: ElevatedButton(
