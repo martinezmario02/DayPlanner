@@ -31,7 +31,7 @@ class _TareaPasoState extends State<TareaPaso> {
     super.initState();
     pasos = widget.pasos;
     tarea = widget.tarea;
-    valorActual = tarea.tiempo_actual*60.0;
+    valorActual = tarea.tiempo_actual/tarea.tiempo;
     valorFinal = tarea.tiempo*60.0;
     pasoActual = tarea.paso_actual;
     totalPasos = pasos.length;

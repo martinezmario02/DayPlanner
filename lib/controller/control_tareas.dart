@@ -24,6 +24,11 @@ class ControladorTareas{
     return await db.tareasTipoDia(tipo, dia);
   }
 
+  // Devolver todas las tareas sin planificar:
+  Future<List<Map<String, dynamic>>> tareasSinPlanificar() async{
+    return await db.tareasSinPlanificar();
+  }
+
   // Comprobaciones de tipo de la tarea:
   Future<List<Map<String, dynamic>>> esColegio(int id){
     return db.esColegio(id);
@@ -63,5 +68,15 @@ class ControladorTareas{
   // Guardar tareas en la bd:
   Future<void> guardarTareaColegio(Tarea tarea, String asignatura, String tipo, List<String> pasos) async{
     return await db.guardarTareaColegio(tarea, asignatura, tipo, pasos);
+  }
+
+  // Guardar la fecha de la tarea:
+  Future<void> anadirFecha(int id, DateTime dia) async{
+    await db.anadirFecha(id, dia);
+  }
+
+  // Ordenar las tareas en función de la prioridad:
+  Future<void> ordenarTareas(int id, int prioridadAntigua, int prioridad, DateTime fecha) async{
+    await db.ordenarTareas(id, prioridadAntigua, prioridad, fecha);
   }
 }

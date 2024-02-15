@@ -229,6 +229,8 @@ class _NuevoColegioState extends State<NuevoColegio> {
                         'pendiente',
                         0,
                         1,
+                        '',
+                        0,
                         1
                       );
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirPaso(tarea: tarea, asignatura: controlAsignatura.text, tipo: tipoTarea.toString())));

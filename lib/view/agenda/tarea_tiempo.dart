@@ -60,7 +60,7 @@ class _TareaTiempoState extends State<TareaTiempo> {
                         const SizedBox(height: 10),
                         Row(
                           children: [
-                            const Text('Tiempo:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
+                            const Text('Tiempo (minutos):', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
                             const SizedBox(width: 10),
                             Expanded(
                               child: TextField(

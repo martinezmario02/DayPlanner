@@ -1,7 +1,6 @@
 import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/view/a%C3%B1adir_tareas/nueva_tarea.dart';
 import 'package:flutter/material.dart';
-import '../agenda/tarea_inicio.dart';
 import '../consultas_tareas.dart';
 import '../../model/tarea.dart';
 
@@ -102,6 +101,8 @@ class _AnadirTareaState extends State<AnadirTarea> {
                       tareas[index][tipoT]['estado'],
                       double.parse(tareas[index][tipoT]['tiempo_actual']),
                       tareas[index][tipoT]['paso_actual'],
+                      tareas[index][tipoT]['organizacion'].toString(),
+                      tareas[index][tipoT]['prioridad'],
                       tareas[index][tipoT]['id_usuario']
                     );
 
@@ -132,6 +133,9 @@ class _AnadirTareaState extends State<AnadirTarea> {
                       valor = tarea.tiempo.toStringAsFixed(0);
                       duracion = '$valor m';
                     }
+
+                    // Estado:
+                    String estado = tarea.estado;
                     
                     return Column(
                       children: [
@@ -167,7 +171,14 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                   child: Container(
                                     height: 70,
                                     color: Colors.white,
-                                    child: Center(child: Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
+                                          Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
+                                        ],
+                                      )
+                                    
                                   )
                                 ),
                                 TableCell(
@@ -281,7 +292,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                           )
                         ),
                         TableCell(
-                          child: Container(
+                          child: SizedBox(
                             height: 70,
                             child: ElevatedButton(
                               onPressed: (){

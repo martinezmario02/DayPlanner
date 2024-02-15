@@ -12,6 +12,8 @@ class Tarea{
   String estado;
   double tiempo_actual;
   int paso_actual;
+  String organizacion;
+  int prioridad;
   int id_usuario;
 
   Tarea(
@@ -26,25 +28,10 @@ class Tarea{
     this.estado,
     this.tiempo_actual,
     this.paso_actual,
+    this.organizacion,
+    this.prioridad,
     this.id_usuario
   );
-
-  factory Tarea.fromMap(Map<String, dynamic> map){
-    return Tarea(
-      map['id'], 
-      map['nombre'], 
-      map['fecha'], 
-      map['dificultad'], 
-      map['tiempo'],
-      map['objetivo'],
-      map['descripcion'],
-      map['tipo_tarea'],
-      map['estado'],
-      map['tiempo_actual'],
-      map['paso_actual'],
-      map['id_usuario']
-    );
-  }
 }
 
 class Paso{
@@ -71,10 +58,12 @@ class TareaColegio extends Tarea{
     String estado,
     double tiempo_actual,
     int paso_actual,
+    String organizacion,
+    int prioridad,
     int id_usuario,
     this.asignatura,
     this.tipo,
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, organizacion, prioridad, id_usuario);
 }
 
 class TareaOcio extends Tarea{
@@ -92,9 +81,11 @@ class TareaOcio extends Tarea{
     String estado,
     double tiempo_actual,
     int paso_actual,
+    String organizacion,
+    int prioridad,
     int id_usuario,
     this.tipo
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, organizacion, prioridad, id_usuario);
 }
 
 class TareaHogar extends Tarea{
@@ -112,7 +103,9 @@ class TareaHogar extends Tarea{
     String estado,
     double tiempo_actual,
     int paso_actual,
+    String organizacion,
+    int prioridad,
     int id_usuario,
     this.tipo
-  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, id_usuario);
+  ) : super(id, nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, estado, tiempo_actual, paso_actual, organizacion, prioridad, id_usuario);
 }

@@ -62,7 +62,6 @@ class _AgendaState extends State<Agenda> {
       resultado = await controlTareas.getPasosHogar(id);
     }
 
-    // return dificultad;
     List<dynamic> pasos = [];
     for(var paso in resultado){
       for(var valor in paso.values){
@@ -178,6 +177,8 @@ class _AgendaState extends State<Agenda> {
                       tareas[index][tipoT]['estado'],
                       double.parse(tareas[index][tipoT]['tiempo_actual']),
                       tareas[index][tipoT]['paso_actual'],
+                      tareas[index][tipoT]['organizacion'].toString(),
+                      tareas[index][tipoT]['prioridad'],
                       tareas[index][tipoT]['id_usuario']
                     );
 
@@ -194,6 +195,9 @@ class _AgendaState extends State<Agenda> {
                       valor = tarea.tiempo.toStringAsFixed(0);
                       duracion = '$valor m';
                     }
+
+                    // Estado:
+                    String estado = tarea.estado;
 
                     return Column(
                       children: [
@@ -229,7 +233,14 @@ class _AgendaState extends State<Agenda> {
                                   child: Container(
                                     height: 70,
                                     color: Colors.white,
-                                    child: Center(child: Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
+                                          Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
+                                        ],
+                                      )
+                                    
                                   )
                                 ),
                                 TableCell(

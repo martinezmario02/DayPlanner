@@ -35,7 +35,7 @@ class DB{
 
   // Devolver todas las tareas de un día concreto:
   Future<List<Map<String, dynamic>>> tareasDia(String dia) async{
-    return await ejecutar("select * from tareas where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+    return await ejecutar("select * from tareas where to_char(organizacion,'yyyy-mm-dd') = '$dia' order by prioridad asc");
   }
 
   // Devolver todas las tareas de un tipo concreto:
@@ -52,12 +52,17 @@ class DB{
   // Devolver todas las tareas de un tipo y un día concreto:
   Future<List<Map<String, dynamic>>> tareasTipoDia(int tipo, String dia) async{
     if(tipo == 0){
-      return await ejecutar("select * from tareascolegio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+      return await ejecutar("select * from tareascolegio where to_char(organizacion,'yyyy-mm-dd') = '$dia'  order by prioridad asc");
     }else if(tipo == 1){
-      return await ejecutar("select * from tareasocio where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+      return await ejecutar("select * from tareasocio where to_char(organizacion,'yyyy-mm-dd') = '$dia' order by prioridad asc");
     }else{
-      return await ejecutar("select * from tareashogar where to_char(fecha,'yyyy-mm-dd') = '$dia'");
+      return await ejecutar("select * from tareashogar where to_char(organizacion,'yyyy-mm-dd') = '$dia' order by prioridad asc");
     }
+  }
+
+  // Devolver todas las tareas sin planificar:
+  Future<List<Map<String, dynamic>>> tareasSinPlanificar() async{
+    return await ejecutar("select * from tareas where organizacion is null");
   }
 
   // Comprobaciones de tipo de la tarea:
@@ -98,7 +103,7 @@ class DB{
 
   // Función para guardar el progreso de una tarea:
   Future<void> guardarProgreso(int id, double tiempo, int paso) async{
-    await ejecutar("update tareas set tiempo_actual=$tiempo, paso_actual=$paso where id=$id");
+    await ejecutar("update tareas set tiempo_actual=$tiempo, paso_actual=$paso, estado='iniciada' where id=$id");
   }
 
   Future<void> guardarEstado(int id) async{
@@ -131,5 +136,16 @@ class DB{
       contenido = pasos[i-1]; 
       await ejecutar("insert into pasoscolegio (id, id_tarea, descripcion) values ($i, $id, '$contenido')");
     }
+  }
+
+  // Guardar la fecha de la tarea:
+  Future<void> anadirFecha(int id, DateTime dia) async{
+    await ejecutar("update tareas set organizacion=to_date('$dia', 'yyyy-mm-dd'), prioridad=coalesce((select max(prioridad) from tareas),0)+1 where id=$id");
+  }
+
+  // Ordenar las tareas en función de la prioridad:
+  Future<void> ordenarTareas(int id, int prioridadAntigua, int prioridad, DateTime fecha) async{
+    await ejecutar("update tareas set prioridad=$prioridad where id=$id");
+    await ejecutar("update tareas set prioridad=case when prioridad = $prioridad then $prioridadAntigua when $prioridadAntigua < $prioridad and prioridad > $prioridadAntigua then prioridad-1 when $prioridadAntigua > $prioridad and prioridad < $prioridadAntigua then prioridad+1 else prioridad end where id<>$id and organizacion=to_date('$fecha', 'yyyy-mm-dd')");
   }
 }

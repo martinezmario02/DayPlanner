@@ -1,6 +1,7 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
 import 'package:flutter/material.dart';
 import 'agenda/agenda.dart';
+import 'organizacion/organizar_semana.dart';
 
 class MenuPrincipal extends StatefulWidget{
   const MenuPrincipal({super.key});
@@ -31,7 +32,7 @@ class _MenuState extends State<MenuPrincipal> {
                 width: 230,
                 child: ElevatedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Agenda()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Agenda()));
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -58,7 +59,7 @@ class _MenuState extends State<MenuPrincipal> {
                     width: 230,
                     child: ElevatedButton(
                       onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AnadirTarea()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
@@ -81,7 +82,7 @@ class _MenuState extends State<MenuPrincipal> {
                     width: 230,
                     child: ElevatedButton(
                       onPressed: (){
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const OrganizarSemana()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
@@ -97,29 +98,29 @@ class _MenuState extends State<MenuPrincipal> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
                   
-                  SizedBox(
-                    height: 70,
-                    width: 230,
-                    child: ElevatedButton(
-                      onPressed: (){
+                  // SizedBox(
+                  //   height: 70,
+                  //   width: 230,
+                  //   child: ElevatedButton(
+                  //     onPressed: (){
 
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
-                        backgroundColor: const Color.fromARGB(255, 255, 118, 39),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/icons/ordenar.png',  width: 50, height: 50),
-                          const SizedBox(width: 5),
-                          const Text('Organizar día', style: TextStyle(fontFamily: 'Titulos', fontSize: 20))
-                        ]
-                      ),
-                    ),
-                  ),
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
+                  //       backgroundColor: const Color.fromARGB(255, 255, 118, 39),
+                  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                  //     ),
+                  //     child: Row(
+                  //       children: [
+                  //         Image.asset('assets/icons/ordenar.png',  width: 50, height: 50),
+                  //         const SizedBox(width: 5),
+                  //         const Text('Organizar día', style: TextStyle(fontFamily: 'Titulos', fontSize: 20))
+                  //       ]
+                  //     ),
+                  //   ),
+                  // ),
                 ]
               )
             ]
