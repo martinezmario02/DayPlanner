@@ -1,8 +1,8 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/view/menu.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../../model/tarea.dart';
+import '../padre.dart';
 
 class TareaPaso extends StatefulWidget{
   final List<dynamic> pasos;
@@ -14,7 +14,6 @@ class TareaPaso extends StatefulWidget{
 }
 
 class _TareaPasoState extends State<TareaPaso> {
-  final controlTareas = ControladorTareas();
   late List<dynamic> pasos;
   late Tarea tarea;
   // Atributos para la barra de tiempo:

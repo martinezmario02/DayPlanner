@@ -1,7 +1,9 @@
 import 'package:app_tdah/controller/control_tareas.dart';
 
+// Controladores:
 final controlTareas = ControladorTareas();
 
+// Funciones comunes:
 Future<String> getImagen(int id) async{
   var resultado = await controlTareas.esColegio(id);
   var resultado2 = await controlTareas.esOcio(id);

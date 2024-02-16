@@ -1,7 +1,6 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/view/organizacion/seleccionar_tarea.dart';
 import 'package:flutter/material.dart';
-import '../consultas_tareas.dart';
+import '../padre.dart';
 import '../../model/tarea.dart';
 
 class OrganizarSemana extends StatefulWidget{
@@ -12,7 +11,6 @@ class OrganizarSemana extends StatefulWidget{
 }
 
 class _OrganizarSemanaState extends State<OrganizarSemana> {
-  final controlTareas = ControladorTareas();
   TextEditingController controlDia = TextEditingController();
   var tareas = [];
   String tipoT = '';

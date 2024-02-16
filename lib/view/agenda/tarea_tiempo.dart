@@ -1,4 +1,3 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:flutter/material.dart';
 import 'tarea_paso.dart';
 import '../../model/tarea.dart';
@@ -14,7 +13,6 @@ class TareaTiempo extends StatefulWidget{
 
 class _TareaTiempoState extends State<TareaTiempo> {
   final TextEditingController controlTF = TextEditingController(); // para que salga un valor en el TextField
-  final controlTareas = ControladorTareas();
   late List<dynamic> pasos;
   late Tarea tarea;
 

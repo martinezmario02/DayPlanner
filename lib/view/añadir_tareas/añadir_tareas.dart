@@ -1,8 +1,7 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/view/a%C3%B1adir_tareas/nueva_tarea.dart';
 import 'package:flutter/material.dart';
-import '../consultas_tareas.dart';
 import '../../model/tarea.dart';
+import '../padre.dart';
 
 class AnadirTarea extends StatefulWidget{
   const AnadirTarea({super.key});
@@ -12,7 +11,6 @@ class AnadirTarea extends StatefulWidget{
 }
 
 class _AnadirTareaState extends State<AnadirTarea> {
-  final controlTareas = ControladorTareas();
   var tareas = [];
   String tipoT = '';
 

@@ -1,8 +1,7 @@
-import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:flutter/material.dart';
 import '../../model/tarea.dart';
 import 'tarea_inicio.dart';
-import '../consultas_tareas.dart';
+import '../padre.dart';
 
 class Agenda extends StatefulWidget{
   const Agenda({super.key});
@@ -12,7 +11,6 @@ class Agenda extends StatefulWidget{
 }
 
 class _AgendaState extends State<Agenda> {
-  final controlTareas = ControladorTareas();
   TextEditingController controlDia = TextEditingController();
   var tareas = [];
   String tipoT = '';

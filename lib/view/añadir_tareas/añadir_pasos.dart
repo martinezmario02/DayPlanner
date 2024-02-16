@@ -1,7 +1,7 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
-import 'package:app_tdah/view/consultas_tareas.dart';
 import 'package:flutter/material.dart';
 import '../../model/tarea.dart';
+import '../padre.dart';
 
 class AnadirPaso extends StatefulWidget{
   final Tarea tarea;
