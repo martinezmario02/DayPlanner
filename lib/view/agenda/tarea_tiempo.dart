@@ -12,22 +12,26 @@ class TareaTiempo extends StatefulWidget{
 }
 
 class _TareaTiempoState extends State<TareaTiempo> {
-  final TextEditingController controlTF = TextEditingController(); // para que salga un valor en el TextField
+  final List<TextEditingController> controlTF = []; // para que salga un valor en el TextField
   late List<dynamic> pasos;
   late Tarea tarea;
+  String alerta = '';
 
   @override
   void initState(){
     super.initState();
     pasos = widget.pasos;
     tarea = widget.tarea;
+    double fraccion = double.parse((tarea.tiempo/pasos.length).toStringAsFixed(1)); // redondea a un decimal
+
+    for(int i = 0; i < pasos.length; i++){
+      controlTF.add(TextEditingController());
+      controlTF[i].text = fraccion.toString();
+    }
   } 
 
   @override
   Widget build(BuildContext context){
-    double fraccion = double.parse((tarea.tiempo/pasos.length).toStringAsFixed(1)); // redondea a un decimal
-    controlTF.text = fraccion.toString(); // se establece el valor inicial
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80.0),
@@ -42,6 +46,10 @@ class _TareaTiempoState extends State<TareaTiempo> {
           margin: const EdgeInsets.all(30.0),
           child: Column(
             children: [
+              // Mensaje de error:
+              Text(alerta, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.red)),
+              const SizedBox(height: 20),
+
               // Información sobre el paso:
               Expanded(
                 child: ListView.builder(
@@ -67,7 +75,7 @@ class _TareaTiempoState extends State<TareaTiempo> {
                                   fillColor: Colors.white,
                                   filled: true,
                                 ),
-                                controller: controlTF,
+                                controller: controlTF[index],
                               )
                             ),
                           ],
@@ -82,7 +90,21 @@ class _TareaTiempoState extends State<TareaTiempo> {
               // Botón para empezar:
               ElevatedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TareaPaso(pasos: pasos, tarea: tarea)));
+                  var tiempos = [];
+                  double total = 0;
+                  for(int i = 0; i < controlTF.length; i++){
+                    total += double.parse(controlTF[i].text);
+                    tiempos.add(total);
+                  }
+                  String t = total.toStringAsFixed(2);
+
+                  if(double.parse(t) == tarea.tiempo){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TareaPaso(pasos: pasos, tarea: tarea, tiempos: tiempos)));
+                  }else{
+                    setState(() {
+                      alerta = "La suma de los tiempos es incorrecta.";
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
                 child: const Text('EMPEZAR')

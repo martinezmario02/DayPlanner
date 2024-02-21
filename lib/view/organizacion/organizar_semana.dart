@@ -22,7 +22,7 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
     String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
     String day = dia.day.toString().padLeft(2, '0');
     String fecha = '$year-$month-$day';
-    var t = await controlTareas.tareasDia(fecha);
+    var t = await controlTareas.tareasDia(fecha, idUsuario);
     
     setState(() {
       tareas = t;
@@ -35,7 +35,7 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
     String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
     String day = dia.day.toString().padLeft(2, '0');
     String fecha = '$year-$month-$day';
-    var t = await controlTareas.tareasTipoDia(tipo, fecha);
+    var t = await controlTareas.tareasTipoDia(tipo, fecha, idUsuario);
     
     setState(() {
       tareas = t;
@@ -96,15 +96,18 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
     getTareas();
   }
 
+  Future<void> borrarTarea(int id) async{
+    await controlTareas.borrarTarea(id);
+    getTareas();
+  }
+
   @override
   Widget build(BuildContext context){
+    double widthPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('AGENDA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 118, 39)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('ORGANIZA TU SEMANA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -153,13 +156,13 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
                   4: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12),
                 },
                 children: [
-                  const TableRow(
+                  TableRow(
                     children: [
-                      Center(child: Text('Nº', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 17, color: Colors.black))),
-                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 17, color: Colors.black))),
-                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 17, color: Colors.black))),
-                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 17, color: Colors.black))),
-                      Center(child: Text('Iniciar', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 17, color: Colors.black)))
+                      Center(child: Text('Nº', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))),
+                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))),
+                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))),
+                      Center(child: Text('Iniciar', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black)))
                     ]
                   )
                 ],
@@ -178,7 +181,7 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
                       tareas[index][tipoT]['fecha'].toString(), 
                       tareas[index][tipoT]['dificultad'],
                       double.parse(tareas[index][tipoT]['tiempo']),
-                      tareas[index][tipoT]['objetivo'],
+                      tareas[index][tipoT]['objetivo'].toString(),
                       tareas[index][tipoT]['descripcion'],
                       tareas[index][tipoT]['tipo_tarea'],
                       tareas[index][tipoT]['estado'],
@@ -220,101 +223,135 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
                     // Estado:
                     String estado = tarea.estado;
                     
-                    return  GestureDetector(
-                      key: ValueKey(tarea.id),
-                      child: Container(
-                        color: const Color.fromARGB(255, 240, 198, 144), 
-                        child: Center(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 15),
-                              Table(
-                                border: TableBorder.all(),
-                                columnWidths: {
-                                  0: FixedColumnWidth(MediaQuery.of(context).size.width * 0.07), 
-                                  1: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12), 
-                                  2: FixedColumnWidth(MediaQuery.of(context).size.width * 0.45), 
-                                  3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12),
-                                  4: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12),
-                                },
-                                children: [
-                                  TableRow(
-                                    children: [
-                                      TableCell(
-                                        child: Container(
-                                          height: 70,
-                                          color: Colors.white,
-                                          child: Center(child: Text(tarea.prioridad.toString(), style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
-                                        )
-                                      ),
-                                      FutureBuilder<String>(
-                                        future: getImagen(tareas[index][tipoT]['id']),
-                                        builder: (context, snapshot){
-                                          if(snapshot.connectionState == ConnectionState.done){
-                                            final imagen = snapshot.data!;
-                                            
-                                            return Container(
-                                              height: 70,
-                                              color: Colors.white,
-                                              child: Center(child: Image.asset(imagen,  width: 35, height: 35))
-                                            );
-                                          } else {
-                                            return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
-                                          }
-                                        }
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 70,
-                                          color: Colors.white,
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
-                                                Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
-                                              ],
-                                            )
-                                          
-                                        )
-                                      ),
-                                      TableCell(
-                                        child: Container(
-                                          height: 70,
-                                          color: Colors.white,
-                                          child: Center(child: Text(plazo, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
-                                        )
-                                      ),
-                                      TableCell(
-                                        child: FutureBuilder<String>(
-                                          future: getDificultad(tarea.id),
+                    return Dismissible(
+                      key: Key(tareas[index].toString()),
+                      direction: DismissDirection.endToStart,
+                      onDismissed: (direction){
+                        borrarTarea(tarea.id);
+                      },
+                      confirmDismiss: (direction) async {
+                        return await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('ATENCIÓN'),
+                              content: const Text('¿Seguro de que deseas quitar esta tarea de este día?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(true),
+                                  child: const Text('Eliminar', style: TextStyle(color: Color.fromARGB(255, 255, 118, 39))),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(false),
+                                  child: const Text('Cancelar', style: TextStyle(color: Color.fromARGB(255, 255, 118, 39))),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: const Icon(Icons.delete, color: Colors.white)
+                      ),
+                      child: GestureDetector(
+                        key: ValueKey(tarea.id),
+                        child: Container(
+                          color: const Color.fromARGB(255, 240, 198, 144), 
+                          child: Center(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 15),
+                                Table(
+                                  border: TableBorder.all(),
+                                  columnWidths: {
+                                    0: FixedColumnWidth(MediaQuery.of(context).size.width * 0.06), 
+                                    1: FixedColumnWidth(MediaQuery.of(context).size.width * 0.1), 
+                                    2: FixedColumnWidth(MediaQuery.of(context).size.width * 0.45), 
+                                    3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12),
+                                    4: FixedColumnWidth(MediaQuery.of(context).size.width * 0.12),
+                                  },
+                                  children: [
+                                    TableRow(
+                                      children: [
+                                        TableCell(
+                                          child: Container(
+                                            height: 70,
+                                            color: Colors.white,
+                                            child: Center(child: Text(tarea.prioridad.toString(), style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                          )
+                                        ),
+                                        FutureBuilder<String>(
+                                          future: getImagen(tareas[index][tipoT]['id']),
                                           builder: (context, snapshot){
                                             if(snapshot.connectionState == ConnectionState.done){
-                                              final dif = snapshot.data!;
-                                              Color fondo;
-                                              if(dif=='alta'){
-                                                fondo = Colors.red;
-                                              }else if(dif=='media'){
-                                                fondo = Colors.orange;
-                                              }else{
-                                                fondo = Colors.green;
-                                              }
-
+                                              final imagen = snapshot.data!;
+                                              
                                               return Container(
                                                 height: 70,
-                                                color: fondo,
-                                                child: Center(child: Text(duracion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                                color: Colors.white,
+                                                child: Center(child: Image.asset(imagen,  width: 30, height: 30))
                                               );
                                             } else {
                                               return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
                                             }
                                           }
-                                        )
-                                      ),
-                                    ]
-                                  )
-                                ],
-                              ),
-                            ],
+                                        ),
+                                        TableCell(
+                                          child: Container(
+                                            height: 70,
+                                            color: Colors.white,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(tarea.nombre, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.05, color: Colors.black)),
+                                                  Text('Estado: $estado', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))
+                                                ],
+                                              )
+                                            
+                                          )
+                                        ),
+                                        TableCell(
+                                          child: Container(
+                                            height: 70,
+                                            color: Colors.white,
+                                            child: Center(child: Text(plazo, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
+                                          )
+                                        ),
+                                        TableCell(
+                                          child: FutureBuilder<String>(
+                                            future: getDificultad(tarea.id),
+                                            builder: (context, snapshot){
+                                              if(snapshot.connectionState == ConnectionState.done){
+                                                final dif = snapshot.data!;
+                                                Color fondo;
+                                                if(dif=='alta'){
+                                                  fondo = Colors.red;
+                                                }else if(dif=='media'){
+                                                  fondo = Colors.orange;
+                                                }else{
+                                                  fondo = Colors.green;
+                                                }
+
+                                                return Container(
+                                                  height: 70,
+                                                  color: fondo,
+                                                  child: Center(child: Text(duracion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
+                                                );
+                                              } else {
+                                                return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
+                                              }
+                                            }
+                                          )
+                                        ),
+                                      ]
+                                    )
+                                  ],
+                                ),
+                              ],
+                            )
                           )
                         )
                       )

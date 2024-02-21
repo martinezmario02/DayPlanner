@@ -6,8 +6,9 @@ import '../padre.dart';
 
 class TareaPaso extends StatefulWidget{
   final List<dynamic> pasos;
+  final List<dynamic> tiempos;
   final Tarea tarea;
-  const TareaPaso({super.key, required this.pasos, required this.tarea});
+  const TareaPaso({super.key, required this.pasos, required this.tarea, required this.tiempos});
 
   @override
   _TareaPasoState createState() => _TareaPasoState();
@@ -15,6 +16,7 @@ class TareaPaso extends StatefulWidget{
 
 class _TareaPasoState extends State<TareaPaso> {
   late List<dynamic> pasos;
+  late List<dynamic> tiempos;
   late Tarea tarea;
   // Atributos para la barra de tiempo:
   double valorActual = 0.0;
@@ -30,6 +32,7 @@ class _TareaPasoState extends State<TareaPaso> {
     super.initState();
     pasos = widget.pasos;
     tarea = widget.tarea;
+    tiempos = widget.tiempos;
     valorActual = tarea.tiempo_actual/tarea.tiempo;
     valorFinal = tarea.tiempo*60.0;
     pasoActual = tarea.paso_actual;
@@ -71,6 +74,29 @@ class _TareaPasoState extends State<TareaPaso> {
 
   @override
   Widget build(BuildContext context){
+    // Notificaciones para alertas de tiempo:
+    if(tiempos[pasoActual-1].toStringAsFixed(2) == (valorActual*tarea.tiempo).toStringAsFixed(2)){
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+           return AlertDialog(
+            title: const Text('ATENCIÓN'),
+            content: const Text('Has llegado al tiempo previsto para este paso.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child: const Text('ACEPTAR', style: TextStyle(color: Color.fromARGB(255, 255, 118, 39)))
+              )
+            ],
+           ); 
+          }
+        );
+      });
+    }
+
     return Scaffold(
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),

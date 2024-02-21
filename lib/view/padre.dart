@@ -1,7 +1,12 @@
 import 'package:app_tdah/controller/control_tareas.dart';
+import 'package:app_tdah/controller/control_usuarios.dart';
 
 // Controladores:
 final controlTareas = ControladorTareas();
+final controlUsuario = ControladorUsuarios();
+
+// Atributos comunes:
+int idUsuario = -1;
 
 // Funciones comunes:
 Future<String> getImagen(int id) async{

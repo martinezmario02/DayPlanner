@@ -25,12 +25,9 @@ class _TareaInicioState extends State<TareaInicio> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('TAREA A COMENZAR', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 155, 97)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('TAREA A COMENZAR', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 155, 97)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),

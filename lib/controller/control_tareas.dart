@@ -5,28 +5,28 @@ DB db = DB();
 
 class ControladorTareas{
   // Devolver todas las tareas:
-  Future<List<Map<String, dynamic>>> tareas() async{
-    return await db.tareas();
+  Future<List<Map<String, dynamic>>> tareas(int usuario) async{
+    return await db.tareas(usuario);
   }
 
   // Devolver todas las tareas de un día concreto:
-  Future<List<Map<String, dynamic>>> tareasDia(String dia) async{
-    return await db.tareasDia(dia);
+  Future<List<Map<String, dynamic>>> tareasDia(String dia, int usuario) async{
+    return await db.tareasDia(dia, usuario);
   }
 
   // Devolver todas las tareas de un tipo concreto:
-  Future<List<Map<String, dynamic>>> tareasTipo(int tipo) async{
-    return await db.tareasTipo(tipo);
+  Future<List<Map<String, dynamic>>> tareasTipo(int tipo, int usuario) async{
+    return await db.tareasTipo(tipo, usuario);
   }
 
   // Devolver todas las tareas de un tipo y un día concreto:
-  Future<List<Map<String, dynamic>>> tareasTipoDia(int tipo, String dia) async{
-    return await db.tareasTipoDia(tipo, dia);
+  Future<List<Map<String, dynamic>>> tareasTipoDia(int tipo, String dia, int usuario) async{
+    return await db.tareasTipoDia(tipo, dia, usuario);
   }
 
   // Devolver todas las tareas sin planificar:
-  Future<List<Map<String, dynamic>>> tareasSinPlanificar() async{
-    return await db.tareasSinPlanificar();
+  Future<List<Map<String, dynamic>>> tareasSinPlanificar(int usuario) async{
+    return await db.tareasSinPlanificar(usuario);
   }
 
   // Comprobaciones de tipo de la tarea:
@@ -78,5 +78,10 @@ class ControladorTareas{
   // Ordenar las tareas en función de la prioridad:
   Future<void> ordenarTareas(int id, int prioridadAntigua, int prioridad, DateTime fecha) async{
     await db.ordenarTareas(id, prioridadAntigua, prioridad, fecha);
+  }
+
+  // Quitar una tarea de organizada:
+  Future<void> borrarTarea(int id) async{
+    await db.borrarTarea(id);
   }
 }

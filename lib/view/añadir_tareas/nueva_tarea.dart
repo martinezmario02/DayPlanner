@@ -11,13 +11,11 @@ class NuevaTarea extends StatefulWidget{
 class _NuevaTareaState extends State<NuevaTarea> {
   @override
   Widget build(BuildContext context){
+    double widthPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('NUEVA TAREA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 155, 97)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('NUEVA TAREA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 155, 97)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -28,9 +26,9 @@ class _NuevaTareaState extends State<NuevaTarea> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 230,
-                    width: 230,
+                  SizedBox(
+                    height: widthPantalla*0.4,
+                    width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevoColegio()));
@@ -46,8 +44,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   const SizedBox(height: 10),
 
                   SizedBox(
-                    height: 230,
-                    width: 230,
+                    height: widthPantalla*0.4,
+                    width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
@@ -67,8 +65,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 230,
-                    width: 230,
+                    height: widthPantalla*0.4,
+                    width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
@@ -84,8 +82,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   const SizedBox(height: 10),
 
                   SizedBox(
-                    height: 230,
-                    width: 230,
+                    height: widthPantalla*0.4,
+                    width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));

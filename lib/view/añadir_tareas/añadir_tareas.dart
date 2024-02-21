@@ -15,7 +15,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
   String tipoT = '';
 
   Future<void> getTareas() async{
-    var t = await controlTareas.tareas();
+    var t = await controlTareas.tareas(idUsuario);
     
     setState(() {
       tareas = t;
@@ -24,7 +24,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
   }
 
   Future<void> getTareasTipo(int tipo) async{ // 0-colegio, 1-ocio, 2-hogar
-    var t = await controlTareas.tareasTipo(tipo);
+    var t = await controlTareas.tareasTipo(tipo, idUsuario);
     
     setState(() {
       tareas = t;
@@ -47,13 +47,11 @@ class _AnadirTareaState extends State<AnadirTarea> {
 
   @override
   Widget build(BuildContext context){
+    double widthPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('AÑADIR TAREAS', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 118, 39)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('AÑADIR TAREAS', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -70,12 +68,12 @@ class _AnadirTareaState extends State<AnadirTarea> {
                   3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14),
                 },
                 children: [
-                  const TableRow(
+                  TableRow(
                     children: [
-                      Center(child: Text('Tipo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Nombre', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Plazo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Tiempo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Plazo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                     ]
                   )
                 ],
@@ -93,7 +91,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                       tareas[index][tipoT]['fecha'].toString(), 
                       tareas[index][tipoT]['dificultad'],
                       double.parse(tareas[index][tipoT]['tiempo']),
-                      tareas[index][tipoT]['objetivo'],
+                      tareas[index][tipoT]['objetivo'].toString(),
                       tareas[index][tipoT]['descripcion'],
                       tareas[index][tipoT]['tipo_tarea'],
                       tareas[index][tipoT]['estado'],
@@ -172,8 +170,8 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
-                                          Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
+                                          Text(tarea.nombre, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.05, color: Colors.black)),
+                                          Text('Estado: $estado', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))
                                         ],
                                       )
                                     
@@ -183,7 +181,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                   child: Container(
                                     height: 70,
                                     color: Colors.white,
-                                    child: Center(child: Text(plazo, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                    child: Center(child: Text(plazo, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                   )
                                 ),
                                 TableCell(
@@ -204,7 +202,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                         return Container(
                                           height: 70,
                                           color: fondo,
-                                          child: Center(child: Text(duracion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                          child: Center(child: Text(duracion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                         );
                                       } else {
                                         return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
@@ -245,17 +243,17 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: 30, height: 30)),
+                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: 30, height: 30))
+                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: 30, height: 30)),
+                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: 30, height: 30))
+                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
                                     ],
                                   )
                                 ],
@@ -272,7 +270,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                 getTareasTipo(2);
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Center(child: Image.asset('assets/icons/casa.png',  width: 40, height: 40))
+                              child: Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
                         ),
@@ -285,7 +283,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                 getTareasTipo(0);
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Center(child: Image.asset('assets/icons/libro.png',  width: 40, height: 40))
+                              child: Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
                         ),
@@ -300,9 +298,9 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: 30, height: 30)),
+                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
                                   const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: 30, height: 30))
+                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
                                 ],
                               )
                             ),
@@ -314,7 +312,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                             color: const Color.fromARGB(255, 240, 198, 144),
                             child: ElevatedButton(
                               onPressed: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => NuevaTarea()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevaTarea()));
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
                               child: const Center(child: Text("+", style: TextStyle(fontFamily: 'Titulos', fontSize: 60, color: Colors.black)))

@@ -17,7 +17,7 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
   String tipoT = '';
 
   Future<void> getTareas() async{
-    var t = await controlTareas.tareasSinPlanificar();
+    var t = await controlTareas.tareasSinPlanificar(idUsuario);
     
     setState(() {
       tareas = t;
@@ -37,13 +37,11 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
 
   @override
   Widget build(BuildContext context){
+    double widthPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('AÑADIR TAREAS', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 118, 39)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('AÑADIR TAREAS', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -60,12 +58,12 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
                   3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14),
                 },
                 children: [
-                  const TableRow(
+                  TableRow(
                     children: [
-                      Center(child: Text('Tipo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Nombre', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Plazo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Tiempo', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Plazo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                     ]
                   )
                 ],
@@ -167,8 +165,8 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
-                                            Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
+                                            Text(tarea.nombre, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.05, color: Colors.black)),
+                                            Text('Estado: $estado', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))
                                           ],
                                         )
                                       
@@ -178,7 +176,7 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
                                     child: Container(
                                       height: 70,
                                       color: Colors.white,
-                                      child: Center(child: Text(plazo, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                      child: Center(child: Text(plazo, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                     )
                                   ),
                                   TableCell(
@@ -199,7 +197,7 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
                                           return Container(
                                             height: 70,
                                             color: fondo,
-                                            child: Center(child: Text(duracion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                            child: Center(child: Text(duracion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                           );
                                         } else {
                                           return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));

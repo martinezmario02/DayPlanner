@@ -22,7 +22,7 @@ class _AgendaState extends State<Agenda> {
     String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
     String day = dia.day.toString().padLeft(2, '0');
     String fecha = '$year-$month-$day';
-    var t = await controlTareas.tareasDia(fecha);
+    var t = await controlTareas.tareasDia(fecha, idUsuario);
     
     setState(() {
       tareas = t;
@@ -35,7 +35,7 @@ class _AgendaState extends State<Agenda> {
     String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
     String day = dia.day.toString().padLeft(2, '0');
     String fecha = '$year-$month-$day';
-    var t = await controlTareas.tareasTipoDia(tipo, fecha);
+    var t = await controlTareas.tareasTipoDia(tipo, fecha, idUsuario);
     
     setState(() {
       tareas = t;
@@ -93,13 +93,11 @@ class _AgendaState extends State<Agenda> {
 
   @override
   Widget build(BuildContext context){
+    double widthPantalla = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          flexibleSpace: const Center(child: Text('AGENDA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-          backgroundColor: const Color.fromARGB(255, 255, 118, 39)
-        )
+      appBar: AppBar(
+        flexibleSpace: const Center(child: Text('AGENDA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -147,12 +145,12 @@ class _AgendaState extends State<Agenda> {
                   3: FixedColumnWidth(MediaQuery.of(context).size.width * 0.14),
                 },
                 children: [
-                  const TableRow(
+                  TableRow(
                     children: [
-                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black))),
-                      Center(child: Text('Iniciar', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                      Center(child: Text('Tipo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Nombre', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Tiempo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black))),
+                      Center(child: Text('Iniciar', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                     ]
                   )
                 ],
@@ -169,7 +167,7 @@ class _AgendaState extends State<Agenda> {
                       tareas[index][tipoT]['fecha'].toString(), 
                       tareas[index][tipoT]['dificultad'],
                       double.parse(tareas[index][tipoT]['tiempo']),
-                      tareas[index][tipoT]['objetivo'],
+                      tareas[index][tipoT]['objetivo'].toString(),
                       tareas[index][tipoT]['descripcion'],
                       tareas[index][tipoT]['tipo_tarea'],
                       tareas[index][tipoT]['estado'],
@@ -234,8 +232,8 @@ class _AgendaState extends State<Agenda> {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(tarea.nombre, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)),
-                                          Text('Estado: $estado', style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 15, color: Colors.black))
+                                          Text(tarea.nombre, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.05, color: Colors.black)),
+                                          Text('Estado: $estado', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black))
                                         ],
                                       )
                                     
@@ -259,7 +257,7 @@ class _AgendaState extends State<Agenda> {
                                         return Container(
                                           height: 70,
                                           color: fondo,
-                                          child: Center(child: Text(duracion, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.black)))
+                                          child: Center(child: Text(duracion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                         );
                                       } else {
                                         return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));
@@ -274,14 +272,14 @@ class _AgendaState extends State<Agenda> {
                                       if(snapshot.connectionState == ConnectionState.done){
                                         var pasos = snapshot.data!;
 
-                                        return Container(
+                                        return SizedBox(
                                           height: 70,
                                           child: ElevatedButton(
                                             onPressed: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (context) => TareaInicio(tarea: tarea, pasos: pasos)));
                                             },
                                             style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                            child: Center(child: Image.asset('assets/icons/play.png',  width: 40, height: 40)),
+                                            child: Center(child: Image.asset('assets/icons/play.png',  width: 60, height: 60)),
                                           ),
                                         );
                                       } else {
@@ -323,17 +321,17 @@ class _AgendaState extends State<Agenda> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: 30, height: 30)),
+                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: 30, height: 30))
+                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: 30, height: 30)),
+                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: 30, height: 30))
+                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
                                     ],
                                   )
                                 ],
@@ -350,7 +348,7 @@ class _AgendaState extends State<Agenda> {
                                 getTareasTipo(2);
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Center(child: Image.asset('assets/icons/casa.png',  width: 40, height: 40))
+                              child: Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
                         ),
@@ -363,12 +361,12 @@ class _AgendaState extends State<Agenda> {
                                 getTareasTipo(0);
                               },
                               style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Center(child: Image.asset('assets/icons/libro.png',  width: 40, height: 40))
+                              child: Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
                         ),
                         TableCell(
-                          child: Container(
+                          child: SizedBox(
                             height: 70,
                             child: ElevatedButton(
                               onPressed: (){
@@ -378,9 +376,9 @@ class _AgendaState extends State<Agenda> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: 40, height: 40)),
+                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
                                   const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: 40, height: 40))
+                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
                                 ],
                               )
                             ),
