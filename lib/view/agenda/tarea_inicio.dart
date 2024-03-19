@@ -87,7 +87,7 @@ class _TareaInicioState extends State<TareaInicio> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TareaTiempo(pasos: pasos, tarea: tarea)));
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                child: const Text('EMPEZAR')
+                child: const Text('EMPEZAR', style: TextStyle(color: Colors.white))
               ),
             ],
           )

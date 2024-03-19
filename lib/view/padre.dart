@@ -1,9 +1,11 @@
 import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/controller/control_usuarios.dart';
+import 'package:app_tdah/controller/control_examenes.dart';
 
 // Controladores:
 final controlTareas = ControladorTareas();
 final controlUsuario = ControladorUsuarios();
+final controlExamenes = ControladorExamenes();
 
 // Atributos comunes:
 int idUsuario = -1;

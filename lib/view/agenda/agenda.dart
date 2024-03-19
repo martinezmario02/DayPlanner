@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../model/tarea.dart';
 import 'tarea_inicio.dart';
 import '../padre.dart';
+import '../menu.dart';
 
 class Agenda extends StatefulWidget{
   const Agenda({super.key});
@@ -97,7 +98,13 @@ class _AgendaState extends State<Agenda> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: const Center(child: Text('AGENDA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
+          },  
+        ),
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -180,15 +187,23 @@ class _AgendaState extends State<Agenda> {
 
                     // Duración:
                     String duracion;
-                    String valor;
+                    int valor;
+                    int valor2;
                     if(tarea.tiempo >= 60.0){
-                      valor = (tarea.tiempo/60.0).toStringAsFixed(0);
-                      duracion = '$valor h';
+                      valor = int.parse((tarea.tiempo/60.0).toStringAsFixed(0));
+                      valor2 = int.parse((tarea.tiempo%60.0).toStringAsFixed(0));
+
+                      if(valor2 != 0){
+                        duracion = '$valor h $valor2 min';
+                      } else{
+                        duracion = '$valor h';
+                      }
+                      
                     } else if(tarea.tiempo < 1){
-                      valor = (tarea.tiempo*60.0).toStringAsFixed(0);
+                      valor = int.parse((tarea.tiempo*60.0).toStringAsFixed(0));
                       duracion = '$valor s';
                     } else{
-                      valor = tarea.tiempo.toStringAsFixed(0);
+                      valor = int.parse(tarea.tiempo.toStringAsFixed(0));
                       duracion = '$valor m';
                     }
 
@@ -266,7 +281,7 @@ class _AgendaState extends State<Agenda> {
                                   )
                                 ),
                                 TableCell(
-                                child: FutureBuilder<List<dynamic>>(
+                                  child: FutureBuilder<List<dynamic>>(
                                     future: getPasos(tarea.tipo_tarea, tarea.id),
                                     builder: (context, snapshot){
                                       if(snapshot.connectionState == ConnectionState.done){
@@ -278,8 +293,14 @@ class _AgendaState extends State<Agenda> {
                                             onPressed: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (context) => TareaInicio(tarea: tarea, pasos: pasos)));
                                             },
-                                            style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                            child: Center(child: Image.asset('assets/icons/play.png',  width: 60, height: 60)),
+                                            style: ButtonStyle(
+                                              shape: MaterialStateProperty.all(
+                                                const RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.zero,
+                                                ),
+                                              ),
+                                            ),
+                                            child: Container(alignment: Alignment.center, child: const Icon(Icons.play_circle, color: Color.fromARGB(255, 255, 118, 39))),
                                           ),
                                         );
                                       } else {
@@ -321,17 +342,17 @@ class _AgendaState extends State<Agenda> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
+                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
+                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
+                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
+                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
                                     ],
                                   )
                                 ],
@@ -376,9 +397,9 @@ class _AgendaState extends State<Agenda> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.07, height: widthPantalla*0.07)),
+                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
                                   const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.07, height: widthPantalla*0.07))
+                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
                                 ],
                               )
                             ),

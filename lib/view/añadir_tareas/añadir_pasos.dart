@@ -43,7 +43,11 @@ class _AnadirPasoState extends State<AnadirPaso> {
       pasos.add(controlPaso[i].text);
     }
 
-    controlTareas.guardarTareaColegio(tarea, asignatura, tipo, pasos);
+    if(tarea.tipo_tarea == 'tareascolegio'){
+      controlTareas.guardarTareaColegio(tarea, asignatura, tipo, pasos);
+    }else{
+      controlTareas.guardarTareaOcioHogar(tarea, tipo, pasos);
+    }
   }
 
   @override
@@ -61,6 +65,8 @@ class _AnadirPasoState extends State<AnadirPaso> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text('Añade, paso a paso, como harías la tarea.', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20)),
+                const SizedBox(height: 15),
                 Expanded(
                   child: ListView.builder(
                     itemCount: numPasos,
@@ -90,7 +96,7 @@ class _AnadirPasoState extends State<AnadirPaso> {
                     ElevatedButton(
                       onPressed: anadirPaso,
                       style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                      child: const Text('AÑADIR PASO')
+                      child: const Text('AÑADIR PASO', style: TextStyle(color: Colors.white))
                     ),
                     const SizedBox(width: 20),
                     ElevatedButton(
@@ -99,7 +105,7 @@ class _AnadirPasoState extends State<AnadirPaso> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const AnadirTarea()));
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                      child: const Text('GUARDAR')
+                      child: const Text('GUARDAR', style: TextStyle(color: Colors.white))
                     ),
                   ],
                 )

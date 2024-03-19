@@ -2,6 +2,7 @@ import 'package:app_tdah/view/a%C3%B1adir_tareas/nueva_tarea.dart';
 import 'package:flutter/material.dart';
 import '../../model/tarea.dart';
 import '../padre.dart';
+import '../menu.dart';
 
 class AnadirTarea extends StatefulWidget{
   const AnadirTarea({super.key});
@@ -51,7 +52,13 @@ class _AnadirTareaState extends State<AnadirTarea> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: const Center(child: Text('AÑADIR TAREAS', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
+          },  
+        ),
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -118,15 +125,23 @@ class _AnadirTareaState extends State<AnadirTarea> {
 
                     // Duración:
                     String duracion;
-                    String valor;
+                    int valor;
+                    int valor2;
                     if(tarea.tiempo >= 60.0){
-                      valor = (tarea.tiempo/60.0).toStringAsFixed(0);
-                      duracion = '$valor h';
+                      valor = int.parse((tarea.tiempo/60.0).toStringAsFixed(0));
+                      valor2 = int.parse((tarea.tiempo%60.0).toStringAsFixed(0));
+
+                      if(valor2 != 0){
+                        duracion = '$valor h $valor2 min';
+                      } else{
+                        duracion = '$valor h';
+                      }
+                      
                     } else if(tarea.tiempo < 1){
-                      valor = (tarea.tiempo*60.0).toStringAsFixed(0);
+                      valor = int.parse((tarea.tiempo*60.0).toStringAsFixed(0));
                       duracion = '$valor s';
                     } else{
-                      valor = tarea.tiempo.toStringAsFixed(0);
+                      valor = int.parse(tarea.tiempo.toStringAsFixed(0));
                       duracion = '$valor m';
                     }
 
@@ -236,24 +251,31 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               onPressed: (){
                                 getTareas();
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
+                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
+                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
+                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
                                       const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
+                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
                                     ],
                                   )
                                 ],
@@ -269,7 +291,14 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               onPressed: (){
                                 getTareasTipo(2);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
@@ -282,7 +311,14 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               onPressed: (){
                                 getTareasTipo(0);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
@@ -294,13 +330,20 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               onPressed: (){
                                 getTareasTipo(1);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.04, height: widthPantalla*0.04)),
+                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
                                   const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.04, height: widthPantalla*0.04))
+                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
                                 ],
                               )
                             ),
@@ -314,7 +357,14 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevaTarea()));
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: const Center(child: Text("+", style: TextStyle(fontFamily: 'Titulos', fontSize: 60, color: Colors.black)))
                             ),
                           )

@@ -2,6 +2,7 @@ import 'package:app_tdah/view/organizacion/seleccionar_tarea.dart';
 import 'package:flutter/material.dart';
 import '../padre.dart';
 import '../../model/tarea.dart';
+import '../menu.dart';
 
 class OrganizarSemana extends StatefulWidget{
   const OrganizarSemana({super.key});
@@ -107,7 +108,13 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: const Center(child: Text('ORGANIZA TU SEMANA', style: TextStyle(fontFamily: 'Titulos', fontSize: 30, color: Colors.white))),
-        backgroundColor: const Color.fromARGB(255, 255, 118, 39)
+        backgroundColor: const Color.fromARGB(255, 255, 118, 39),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
+          },  
+        ),
       ),
       body: Container(
         color: const Color.fromARGB(255, 240, 198, 144),
@@ -367,7 +374,7 @@ class _OrganizarSemanaState extends State<OrganizarSemana> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SeleccionarTarea(dia: dia)));
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                  child: const Text('AÑADIR')
+                  child: const Text('AÑADIR', style: TextStyle(color: Colors.white))
                 ),
               )
             ],

@@ -152,7 +152,7 @@ class _TareaPasoState extends State<TareaPaso> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                    child: const Text('DESCANSAR')
+                    child: const Text('DESCANSAR', style: TextStyle(color: Colors.white))
                   ),
                   const SizedBox(width: 20),
                   ElevatedButton(
@@ -165,7 +165,7 @@ class _TareaPasoState extends State<TareaPaso> {
                       } 
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                    child: const Text('CONTINUAR')
+                    child: const Text('CONTINUAR', style: TextStyle(color: Colors.white))
                   ),
                 ],
               ),

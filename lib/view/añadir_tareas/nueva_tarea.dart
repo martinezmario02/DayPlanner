@@ -1,4 +1,5 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/nuevo_colegio.dart';
+import 'package:app_tdah/view/a%C3%B1adir_tareas/nuevo_ocio_casa.dart';
 import 'package:flutter/material.dart';
 
 class NuevaTarea extends StatefulWidget{
@@ -38,7 +39,13 @@ class _NuevaTareaState extends State<NuevaTarea> {
                         backgroundColor: const Color.fromARGB(255, 255, 155, 97),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                       ),
-                      child: Image.asset('assets/icons/libro.png',  width: 100, height: 100)
+                      child: Column(
+                        children: [
+                          Image.asset('assets/icons/libro.png',  width: 100, height: 100),
+                          const Text('COLEGIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                        ],
+                      )
+                      
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -48,14 +55,20 @@ class _NuevaTareaState extends State<NuevaTarea> {
                     width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevoOcioCasa(tipo: 'tareashogar')));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
                         backgroundColor: const Color.fromARGB(255, 255, 155, 97),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                       ),
-                      child: Image.asset('assets/icons/casa.png',  width: 100, height: 100)
+                      child: Column(
+                        children: [
+                          Image.asset('assets/icons/casa.png',  width: 100, height: 100),
+                          const Text('HOGAR', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                        ],
+                      )
+                      
                     ),
                   ),
                 ]
@@ -69,14 +82,19 @@ class _NuevaTareaState extends State<NuevaTarea> {
                     width: widthPantalla*0.4,
                     child: ElevatedButton(
                       onPressed: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NuevoOcioCasa(tipo: 'tareasocio')));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
                         backgroundColor: const Color.fromARGB(255, 255, 155, 97),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
                       ),
-                      child: Image.asset('assets/icons/pelota.png',  width: 100, height: 100)
+                      child: Column(
+                        children: [
+                          Image.asset('assets/icons/pelota.png',  width: 100, height: 100),
+                          const Text('OCIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                        ],
+                      )
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -84,17 +102,17 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   SizedBox(
                     height: widthPantalla*0.4,
                     width: widthPantalla*0.4,
-                    child: ElevatedButton(
-                      onPressed: (){
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
-                        backgroundColor: const Color.fromARGB(255, 255, 155, 97),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
-                      ),
-                      child: Image.asset('assets/icons/cumple.png',  width: 100, height: 100)
-                    ),
+                    // child: ElevatedButton(
+                    //   onPressed: (){
+                    //     //Navigator.push(context, MaterialPageRoute(builder: (context) => AnadirTarea()));
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 20),
+                    //     backgroundColor: const Color.fromARGB(255, 255, 155, 97),
+                    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))
+                    //   ),
+                    //   child: Image.asset('assets/icons/cumple.png',  width: 100, height: 100)
+                    // ),
                   ),
                 ]
               )

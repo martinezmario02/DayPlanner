@@ -107,7 +107,7 @@ class _TareaTiempoState extends State<TareaTiempo> {
                   }
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                child: const Text('EMPEZAR')
+                child: const Text('EMPEZAR', style: TextStyle(color: Colors.white),)
               ),
             ],
           )

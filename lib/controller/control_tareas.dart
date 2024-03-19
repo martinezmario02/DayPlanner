@@ -70,6 +70,10 @@ class ControladorTareas{
     return await db.guardarTareaColegio(tarea, asignatura, tipo, pasos);
   }
 
+  Future<void> guardarTareaOcioHogar(Tarea tarea, String tipo, List<String> pasos) async{
+    return await db.guardarTareaOcioHogar(tarea, tipo, pasos);
+  }
+
   // Guardar la fecha de la tarea:
   Future<void> anadirFecha(int id, DateTime dia) async{
     await db.anadirFecha(id, dia);

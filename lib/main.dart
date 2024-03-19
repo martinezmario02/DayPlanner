@@ -1,4 +1,5 @@
 import 'package:app_tdah/view/menu.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'view/registro.dart';
 import 'view/padre.dart';
@@ -16,6 +17,13 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'App',
       home: Inicio(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('es', 'ES'), // Español
+      ],
     );
   }
 }
@@ -115,7 +123,7 @@ class _InicioState extends State<Inicio>{
                               
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                            child: const Text('ACEPTAR')
+                            child: const Text('ACEPTAR', style: TextStyle(color: Colors.white))
                           ),
                         ],
                       )
@@ -129,7 +137,7 @@ class _InicioState extends State<Inicio>{
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistroUsuario()));
                       }, 
-                      child: const Text('Regístrate aquí', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39), decoration: TextDecoration.underline))
+                      child: const Text('Regístrate aquí', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18, color: Color.fromARGB(255, 255, 118, 39)))
                     )
                   ],
                 )

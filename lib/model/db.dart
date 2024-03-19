@@ -1,3 +1,4 @@
+import 'package:app_tdah/view/padre.dart';
 import 'package:postgres/postgres.dart';
 import 'tarea.dart';
 
@@ -145,15 +146,60 @@ class DB{
     }
   }
 
+  Future<void> guardarTareaOcioHogar(Tarea tarea, String tipo, List<String> pasos) async{
+    // Extraigo los valores:
+    final nombre = tarea.nombre.replaceAll("'", "''");
+    final fecha = tarea.fecha.replaceAll("'", "''");
+    final dificultad = tarea.dificultad.replaceAll("'", "''");
+    final tiempo = tarea.tiempo;
+    tipo = tipo.replaceAll("'", "''");
+    final tipo_tarea = tarea.tipo_tarea;
+    final descripcion = tarea.descripcion.replaceAll("'", "''");
+    final objetivo = tarea.objetivo.replaceAll("'", "''");
+    final usuario = tarea.id_usuario;
+
+    // Añado la tarea:
+    await ejecutar("insert into $tipo_tarea (nombre, fecha, dificultad, tiempo, objetivo, descripcion, tipo_tarea, tipo, id_usuario) values ('$nombre', TO_DATE('$fecha', 'YYYY-MM-DD'), '$dificultad', '$tiempo', '$objetivo', '$descripcion', '$tipo_tarea', '$tipo', $usuario)");
+
+    // Obtengo el id de la nueva tarea:
+    var resultado = [];
+    resultado = await ejecutar("select id_tarea from $tipo_tarea order by id desc limit 1");
+    var id = resultado[0][tipo_tarea]['id_tarea'];
+
+    // Añado los pasos:
+    var contenido = '';
+    var tipoPasos = '';
+    if(tipo_tarea == 'tareasocio'){
+      tipoPasos = 'pasosocio';
+    }else{
+      tipoPasos = 'pasoshogar';
+    }
+
+    for (int i = 1; i <= pasos.length; i++){
+      contenido = pasos[i-1]; 
+      await ejecutar("insert into $tipoPasos (id, id_tarea, descripcion) values ($i, $id, '$contenido')");
+    }
+  }
+
   // Guardar la fecha de la tarea:
   Future<void> anadirFecha(int id, DateTime dia) async{
-    await ejecutar("update tareas set organizacion=to_date('$dia', 'yyyy-mm-dd'), prioridad=coalesce((select max(prioridad) from tareas where organizacion=to_date('$dia', 'yyyy-mm-dd')),0)+1 where id=$id");
+    await ejecutar("update tareas set organizacion=to_date('$dia', 'yyyy-mm-dd'), prioridad=coalesce((select max(prioridad) from tareas where organizacion=to_date('$dia', 'yyyy-mm-dd') and id_usuario=$idUsuario),0)+1 where id=$id");
   }
 
   // Ordenar las tareas en función de la prioridad:
   Future<void> ordenarTareas(int id, int prioridadAntigua, int prioridad, DateTime fecha) async{
+    if(prioridadAntigua < prioridad){
+      prioridad--;
+    }
+    
     await ejecutar("update tareas set prioridad=$prioridad where id=$id");
-    await ejecutar("update tareas set prioridad=case when prioridad = $prioridad then $prioridadAntigua when $prioridadAntigua < $prioridad and prioridad > $prioridadAntigua then prioridad-1 when $prioridadAntigua > $prioridad and prioridad < $prioridadAntigua then prioridad+1 else prioridad end where id<>$id and organizacion=to_date('$fecha', 'yyyy-mm-dd')");
+    await ejecutar("update tareas set prioridad=case when $prioridadAntigua < $prioridad and prioridad <= $prioridad and prioridad > $prioridadAntigua then prioridad-1 when $prioridadAntigua > $prioridad and prioridad >= $prioridad and prioridad < $prioridadAntigua then prioridad+1 else prioridad end where id<>$id and organizacion=to_date('$fecha', 'yyyy-mm-dd')");
+  }
+
+  // Quitar una tarea de organizada:
+  Future<void> borrarTarea(int id) async{
+    await ejecutar("update tareas set prioridad=prioridad-1 where prioridad > (select prioridad from tareas where id=$id)");
+    await ejecutar("update tareas set organizacion=null, prioridad=0 where id=$id");
   }
 
   /////////////////////////////////////////////////////////////////
@@ -173,9 +219,44 @@ class DB{
     }
   }
 
-  // Quitar una tarea de organizada:
-  Future<void> borrarTarea(int id) async{
-    await ejecutar("update tareas set prioridad=prioridad-1 where prioridad > (select prioridad from tareas where id=$id)");
-    await ejecutar("update tareas set organizacion=null, prioridad=0 where id=$id");
+  /////////////////////////////////////////////////////////////////
+  ///                                                           ///
+  ///     FUNCIONES PARA LOS EXÁMENES                           ///
+  ///                                                           ///
+  /////////////////////////////////////////////////////////////////
+  
+  // Devolver los exámenes pendientes:
+  Future<List<Map<String, dynamic>>> examenesPendientes(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0');
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+    return await ejecutar("select * from examenes where id_usuario=$id and to_char(fecha,'yyyy-mm-dd') >= '$fecha'");
+  }
+
+  // Devolver los exámenes realizados:
+  Future<List<Map<String, dynamic>>> examenesRealizados(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0');
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+    return await ejecutar("select * from examenes where id_usuario=$id and to_char(fecha,'yyyy-mm-dd') < '$fecha'");
+  }
+
+  // Devolver la dificultad de una tarea:
+  Future<List<Map<String, dynamic>>> getDificultadExamen(int id) async{
+    return await ejecutar("select dificultad from examenes where id=$id");
+  }
+
+  // Guardar la nota de un examen:
+  Future<void> guardarNota(int id, double nota) async{
+    await ejecutar("update examenes set nota=$nota where id=$id");
+  }
+
+  // Guardar la nota de un examen:
+  Future<void> guardarExamen(String asignatura, String temario, String fecha, String dificultad, int idUsuario) async{
+    await ejecutar("insert into examenes (asignatura, temario, fecha, dificultad, id_usuario) values ('$asignatura', '$temario', TO_DATE('$fecha', 'YYYY-MM-DD'), '$dificultad', $idUsuario)");
   }
 }

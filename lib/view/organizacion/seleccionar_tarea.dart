@@ -81,7 +81,7 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
                       tareas[index][tipoT]['fecha'].toString(), 
                       tareas[index][tipoT]['dificultad'],
                       double.parse(tareas[index][tipoT]['tiempo']),
-                      tareas[index][tipoT]['objetivo'],
+                      tareas[index][tipoT]['objetivo'].toString(),
                       tareas[index][tipoT]['descripcion'],
                       tareas[index][tipoT]['tipo_tarea'],
                       tareas[index][tipoT]['estado'],
@@ -108,15 +108,23 @@ class _SeleccionarTareaState extends State<SeleccionarTarea> {
 
                     // Duración:
                     String duracion;
-                    String valor;
+                    int valor;
+                    int valor2;
                     if(tarea.tiempo >= 60.0){
-                      valor = (tarea.tiempo/60.0).toStringAsFixed(0);
-                      duracion = '$valor h';
+                      valor = int.parse((tarea.tiempo/60.0).toStringAsFixed(0));
+                      valor2 = int.parse((tarea.tiempo%60.0).toStringAsFixed(0));
+
+                      if(valor2 != 0){
+                        duracion = '$valor h $valor2 min';
+                      } else{
+                        duracion = '$valor h';
+                      }
+                      
                     } else if(tarea.tiempo < 1){
-                      valor = (tarea.tiempo*60.0).toStringAsFixed(0);
+                      valor = int.parse((tarea.tiempo*60.0).toStringAsFixed(0));
                       duracion = '$valor s';
                     } else{
-                      valor = tarea.tiempo.toStringAsFixed(0);
+                      valor = int.parse(tarea.tiempo.toStringAsFixed(0));
                       duracion = '$valor m';
                     }
 

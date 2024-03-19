@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../model/tarea.dart';
 
-class NuevoColegio extends StatefulWidget{
-  const NuevoColegio({super.key});
+class NuevoOcioCasa extends StatefulWidget{
+  final String tipo;
+  const NuevoOcioCasa({super.key, required this.tipo});
 
   @override
-  _NuevoColegioState createState() => _NuevoColegioState();
+  _NuevoOcioCasaState createState() => _NuevoOcioCasaState();
 }
 
-class _NuevoColegioState extends State<NuevoColegio> {
+class _NuevoOcioCasaState extends State<NuevoOcioCasa> {
   // Controladores:
   TextEditingController controlNombre = TextEditingController();
   TextEditingController controlAsignatura = TextEditingController();
   TextEditingController controlFecha = TextEditingController();
-  TextEditingController controlMinutos = TextEditingController();
-  TextEditingController controlHoras = TextEditingController();
+  TextEditingController controlTiempo = TextEditingController();
   TextEditingController controlDescripcion = TextEditingController();
   TextEditingController controlObjetivo = TextEditingController();
 
@@ -25,13 +25,20 @@ class _NuevoColegioState extends State<NuevoColegio> {
   DateTime fecha = DateTime.now();
   List<String> opcionesDificultad = ['alta', 'media', 'baja'];
   String? dificultad;
-  List<String> opcionesTarea = ['estudio', 'deberes', 'otro'];
+  List<String> opcionesTarea = [];
   String? tipoTarea;
   String alerta ='';
+  late String tipo;
 
   @override
   void initState() {
     super.initState();
+    tipo = widget.tipo;
+    if(tipo == 'tareasocio'){
+      opcionesTarea = ['jugar', 'deporte', 'otro'];
+    }else{
+      opcionesTarea = ['limpiar', 'ordenar', 'otro'];
+    }
   }
 
   // Función para el calendario:
@@ -90,17 +97,6 @@ class _NuevoColegioState extends State<NuevoColegio> {
                       border: OutlineInputBorder(),
                       fillColor: Colors.white,
                       filled: true,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  TextField(
-                    controller: controlAsignatura,
-                    decoration: const InputDecoration(
-                      labelText: 'Asignatura', 
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.white,
-                      filled: true,
                     ),  
                   ),
                   const SizedBox(height: 20),
@@ -118,57 +114,22 @@ class _NuevoColegioState extends State<NuevoColegio> {
                   ),
                   const SizedBox(height: 20),
 
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Tiempo de realización:', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18)),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        child: TextField(
-                          controller: controlHoras,
-                          keyboardType: TextInputType.number, // teclado numérico
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // para que solo admita números
-                          decoration: const InputDecoration(
-                            labelText: 'Horas',
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            filled: true,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text('horas', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18)),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 100,
-                        child: TextField(
-                          controller: controlMinutos,
-                          keyboardType: TextInputType.number, // teclado numérico
-                          inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // para que solo admita números
-                          decoration: const InputDecoration(
-                            labelText: 'Minutos',
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            filled: true,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text('minutos', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 18)),
-
-                    ],
+                  TextField(
+                    controller: controlTiempo,
+                    keyboardType: TextInputType.number, // teclado numérico
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly], // para que solo admita números
+                    decoration: const InputDecoration(
+                      labelText: 'Tiempo de realización (minutos)',
+                      border: OutlineInputBorder(),
+                      fillColor: Colors.white,
+                      filled: true,
+                    ),
                   ),
                   const SizedBox(height: 20),
 
                   Container(
                     height: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
                     child: InputDecorator(
                       decoration: const InputDecoration(
                         labelText: 'Dificultad',
@@ -182,16 +143,15 @@ class _NuevoColegioState extends State<NuevoColegio> {
                           value: dificultad,
                           items: opcionesDificultad.map((e) => DropdownMenuItem<String>(
                             value: e,
-                            child: Text(e.substring(0,1).toUpperCase() + e.substring(1).toLowerCase(), overflow: TextOverflow.visible,),
+                            child: Text(e.substring(0,1).toUpperCase() + e.substring(1).toLowerCase(), overflow: TextOverflow.visible,)
                           )).toList(),
                           onChanged: (e) => setState(() {
                             dificultad = e;
                           }),
-                        ),
-                      ),
+                        )
+                      )
                     ),
                   ),
-
                   const SizedBox(height: 20),
                   
                   Container(
@@ -266,7 +226,7 @@ class _NuevoColegioState extends State<NuevoColegio> {
                   ElevatedButton(
                     onPressed: (){
                       DateTime fecha = DateTime.parse(controlFecha.text);
-                      if(controlNombre.text.isEmpty || controlAsignatura.text.isEmpty || controlFecha.text.isEmpty || (controlMinutos.text.isEmpty && controlHoras.text.isEmpty) || controlDescripcion.text.isEmpty){
+                      if(controlNombre.text.isEmpty || controlFecha.text.isEmpty || controlTiempo.text.isEmpty || controlDescripcion.text.isEmpty){
                         setState(() {
                           alerta = 'Debe rellenar todos los campos.';
                         });
@@ -275,24 +235,15 @@ class _NuevoColegioState extends State<NuevoColegio> {
                           alerta = 'La fecha desbe ser posterior a hoy.';
                         });
                       } else{
-                        // Calculo el tiempo:
-                        double realizacion = 0;
-                        if(controlHoras.text.isNotEmpty){
-                          realizacion += double.parse(controlHoras.text)*60;
-                        }
-                        if(controlMinutos.text.isNotEmpty){
-                          realizacion += double.parse(controlMinutos.text);
-                        }
-
                         Tarea tarea = Tarea(
                           0, 
                           controlNombre.text, 
                           controlFecha.text, 
                           dificultad.toString(),
-                          realizacion,
+                          double.parse(controlTiempo.text),
                           controlObjetivo.text,
                           controlDescripcion.text,
-                          'tareascolegio',
+                          tipo,
                           'pendiente',
                           0,
                           1,
