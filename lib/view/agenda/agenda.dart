@@ -335,28 +335,36 @@ class _AgendaState extends State<Agenda> {
                               onPressed: (){
                                 getTareas();
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
-                                      const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
-                                    ],
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
-                                      const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
-                                    ],
-                                  )
-                                ],
-                              ) 
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
+                              // child: Column(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //         const SizedBox(width: 5),
+                              //         Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //       ],
+                              //     ),
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //         const SizedBox(width: 5),
+                              //         Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //       ],
+                              //     )
+                              //   ],
+                              // ) 
+                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.045, color: Colors.black)))
                             ),
                           )
                         ),
@@ -368,7 +376,14 @@ class _AgendaState extends State<Agenda> {
                               onPressed: (){
                                 getTareasTipo(2);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
@@ -381,7 +396,14 @@ class _AgendaState extends State<Agenda> {
                               onPressed: (){
                                 getTareasTipo(0);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
                               child: Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.1, height: widthPantalla*0.1))
                             ),
                           )
@@ -393,15 +415,23 @@ class _AgendaState extends State<Agenda> {
                               onPressed: (){
                                 getTareasTipo(1);
                               },
-                              style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 240, 198, 144)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.06, height: widthPantalla*0.06)),
-                                  const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.06, height: widthPantalla*0.06))
-                                ],
-                              )
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
+                              ),
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //     const SizedBox(width: 5),
+                              //     Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //   ],
+                              // )
+                              child: Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.1, height: widthPantalla*0.1)),
                             ),
                           )
                         ),

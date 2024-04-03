@@ -219,6 +219,19 @@ class DB{
     }
   }
 
+  Future<Map<String, dynamic>> getUsuario(int id) async{
+    var resultado = await ejecutar("select * from usuarios where id=$id");
+    return resultado[0];
+  }
+
+  Future<void> modificarPerfil(int id, String nombre, String ciudad, String colegio) async{
+    await ejecutar("update usuarios set nombre='$nombre', direccion='$ciudad', colegio='$colegio' where id=$id");
+  }
+
+  Future<void> modificarAvatar(int id, String nombre) async{
+    await ejecutar("update usuarios set foto='$nombre' where id=$id");
+  }
+
   /////////////////////////////////////////////////////////////////
   ///                                                           ///
   ///     FUNCIONES PARA LOS EXÁMENES                           ///

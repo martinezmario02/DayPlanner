@@ -3,6 +3,7 @@ import 'package:app_tdah/view/examenes/examenes.dart';
 import 'package:flutter/material.dart';
 import 'agenda/agenda.dart';
 import 'organizacion/organizar_semana.dart';
+import 'perfil/perfil.dart';
 import '../main.dart';
 
 class MenuPrincipal extends StatefulWidget{
@@ -158,7 +159,7 @@ class _MenuState extends State<MenuPrincipal> {
                           fit: BoxFit.scaleDown,
                           child: ElevatedButton(
                             onPressed: (){
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => const OrganizarSemana()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const Perfil()));
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),

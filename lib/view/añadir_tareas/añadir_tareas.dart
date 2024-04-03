@@ -259,27 +259,28 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                 ),
                                 backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
-                                      const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
-                                      const SizedBox(width: 5),
-                                      Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
-                                    ],
-                                  )
-                                ],
-                              ) 
+                              // child: Column(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Center(child: Image.asset('assets/icons/casa.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //         const SizedBox(width: 5),
+                              //         Center(child: Image.asset('assets/icons/libro.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //       ],
+                              //     ),
+                              //     Row(
+                              //       mainAxisAlignment: MainAxisAlignment.center,
+                              //       children: [
+                              //         Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //         const SizedBox(width: 5),
+                              //         Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //       ],
+                              //     )
+                              //   ],
+                              // ) 
+                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black)))
                             ),
                           )
                         ),
@@ -338,14 +339,15 @@ class _AnadirTareaState extends State<AnadirTarea> {
                                 ),
                                 backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 240, 198, 144)),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
-                                  const SizedBox(width: 5),
-                                  Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
-                                ],
-                              )
+                              // child: Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.03, height: widthPantalla*0.03)),
+                              //     const SizedBox(width: 5),
+                              //     Center(child: Image.asset('assets/icons/cumple.png',  width: widthPantalla*0.03, height: widthPantalla*0.03))
+                              //   ],
+                              // )
+                              child: Center(child: Image.asset('assets/icons/pelota.png',  width: widthPantalla*0.1, height: widthPantalla*0.1)),
                             ),
                           )
                         ),

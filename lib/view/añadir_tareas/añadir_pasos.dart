@@ -20,6 +20,7 @@ class _AnadirPasoState extends State<AnadirPaso> {
   late String tipo;
   List<TextEditingController> controlPaso = [];
   int numPasos = 0;
+  final ScrollController controlScroll = ScrollController();
 
   @override
   void initState(){
@@ -33,6 +34,15 @@ class _AnadirPasoState extends State<AnadirPaso> {
     setState(() {
       numPasos++;
       controlPaso.add(TextEditingController());
+      scrollBoton();
+    });
+  }
+
+  void borrarPaso(){
+    setState(() {
+      numPasos--;
+      controlPaso.removeLast();
+      scrollBoton();
     });
   }
 
@@ -50,6 +60,15 @@ class _AnadirPasoState extends State<AnadirPaso> {
     }
   }
 
+  // Función para mostrar siempre el último form:
+  void scrollBoton() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final double posicion = controlScroll.position.maxScrollExtent;
+      controlScroll.jumpTo(posicion);
+    });
+  
+  }
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -63,25 +82,37 @@ class _AnadirPasoState extends State<AnadirPaso> {
           margin: const EdgeInsets.all(30.0),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 const Text('Añade, paso a paso, como harías la tarea.', style: TextStyle(fontFamily: 'Cuerpo', fontSize: 20)),
                 const SizedBox(height: 15),
                 Expanded(
                   child: ListView.builder(
+                    controller: controlScroll,
                     itemCount: numPasos,
                     itemBuilder: (BuildContext context, int index){
                       int paso = index+1;
                       return Column(
                         children: [
-                          TextField(
-                            controller: controlPaso[index],
-                            decoration: InputDecoration(
-                              labelText: 'Paso $paso', 
-                              border: const OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              filled: true,
-                            ), 
+                          Row(
+                            children: [
+                              Expanded(
+                                child:TextField(
+                                  controller: controlPaso[index],
+                                  decoration: InputDecoration(
+                                    labelText: 'Paso $paso', 
+                                    border: const OutlineInputBorder(),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                  ), 
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: borrarPaso
+                              ),
+
+                            ],
                           ),
                           const SizedBox(height: 15)
                         ]
