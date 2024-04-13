@@ -202,6 +202,96 @@ class DB{
     await ejecutar("update tareas set organizacion=null, prioridad=0 where id=$id");
   }
 
+  // Devolver número de tareas realizadas:
+  Future<int> numeroRealizadas(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+
+    Map<String, dynamic> numero = (await ejecutar("select count(*) from tareas where id_usuario=$id and estado='realizada' and to_char(organizacion,'yyyy-mm-dd') = '$fecha'"))[0];
+    return numero['']['count'];
+  }
+
+  // Devolver número de tareas pendientes:
+  Future<int> numeroPendientes(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+
+    Map<String, dynamic> numero = (await ejecutar("select count(*) from tareas where id_usuario=$id and estado<>'realizada' and to_char(organizacion,'yyyy-mm-dd') = '$fecha'"))[0];
+    return numero['']['count'];
+  }
+
+  // Devolver el tiempo empleado en las tareas:
+  Future<double> tiempoEmpleado(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+
+    Map<String, dynamic> numero = (await ejecutar("select sum(tiempo_actual) from tareas where id_usuario=$id and estado='realizada' and to_char(organizacion,'yyyy-mm-dd') = '$fecha'"))[0];
+
+    if(numero['']['sum'] == null){
+      return 0.0;
+    } else{
+      return double.parse(numero['']['sum']);
+    }
+  }
+
+  // Devolver el tiempo estimado en las tareas:
+  Future<double> tiempoEstimado(int id) async{
+    DateTime dia = DateTime.now();
+    String year = dia.year.toString();
+    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
+    String day = dia.day.toString().padLeft(2, '0');
+    String fecha = '$year-$month-$day';
+
+    Map<String, dynamic> numero = (await ejecutar("select sum(tiempo) from tareas where id_usuario=$id and estado='realizada' and to_char(organizacion,'yyyy-mm-dd') = '$fecha'"))[0];
+    
+    if(numero['']['sum'] == null){
+      return 0.0;
+    } else{
+      return double.parse(numero['']['sum']);
+    }
+  }
+
+  // Devolver las tareas realizadas:
+  Future<List<Map<String, dynamic>>> tareasRealizadas(int usuario, String dia) async{
+    return await ejecutar("select * from tareas where to_char(organizacion,'yyyy-mm-dd') = '$dia' and id_usuario=$usuario and estado='realizada' order by prioridad asc");
+  }
+
+  // Devolver las tareas realizadas:
+  Future<List<Map<String, dynamic>>> tareasPendientes(int usuario, String dia) async{
+    return await ejecutar("select * from tareas where to_char(organizacion,'yyyy-mm-dd') = '$dia' and id_usuario=$usuario and estado='pendiente' order by prioridad asc");
+  }
+
+  // Devolver el número de pasos en función del tipo:
+  Future<List<Map<String, dynamic>>> getNumPasosColegio(int id) async{
+    var resultado = [];
+    resultado = await ejecutar("select id_tarea from tareascolegio where id=$id");
+    var idTarea = resultado[0]['tareascolegio']['id_tarea'];
+    return await ejecutar("select count(*) from pasoscolegio where id_tarea=$idTarea");
+  } 
+
+  Future<List<Map<String, dynamic>>> getNumPasosOcio(int id) async{
+    var resultado = [];
+    resultado = await ejecutar("select id_tarea from tareasocio where id=$id");
+    var idTarea = resultado[0]['tareasocio']['id_tarea'];
+    return await ejecutar("select count(*) from pasosocio where id_tarea=$idTarea");
+  } 
+
+  Future<List<Map<String, dynamic>>> getNumPasosHogar(int id) async{
+    var resultado = [];
+    resultado = await ejecutar("select id_tarea from tareashogar where id=$id");
+    var idTarea = resultado[0]['tareashogar']['id_tarea'];
+    return await ejecutar("select count(*) from pasoshogar where id_tarea=$idTarea");
+  } 
+
   /////////////////////////////////////////////////////////////////
   ///                                                           ///
   ///     FUNCIONES PARA LOS USUARIOS                           ///
@@ -219,17 +309,30 @@ class DB{
     }
   }
 
+  // Función que devuelve los datos de un usuario:
   Future<Map<String, dynamic>> getUsuario(int id) async{
     var resultado = await ejecutar("select * from usuarios where id=$id");
     return resultado[0];
   }
 
+  // Función para modificar los datos del perfil de un usuario:
   Future<void> modificarPerfil(int id, String nombre, String ciudad, String colegio) async{
     await ejecutar("update usuarios set nombre='$nombre', direccion='$ciudad', colegio='$colegio' where id=$id");
   }
 
+  // Función para modificar el avatar de un usuario:
   Future<void> modificarAvatar(int id, String nombre) async{
     await ejecutar("update usuarios set foto='$nombre' where id=$id");
+  }
+
+  // Función para comprobar si el correo está ya registrado:
+  Future<Map<String, dynamic>> comprobarCorreo(String correo) async{
+    return (await ejecutar("select count(*) from usuarios where correo='$correo'"))[0];
+  }
+
+  // Función para registrar un usuario:
+  Future<void> guardarUsuario(String nombre, String correo, String fecha, String ciudad, String centro, String contrasena) async{
+    await ejecutar("insert into usuarios (nombre, correo, nacimiento, direccion, colegio, contrasena) values ('$nombre', '$correo', TO_DATE('$fecha', 'YYYY-MM-DD'), '$ciudad', '$centro', '$contrasena')");
   }
 
   /////////////////////////////////////////////////////////////////

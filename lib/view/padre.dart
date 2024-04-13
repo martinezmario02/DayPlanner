@@ -1,6 +1,8 @@
 import 'package:app_tdah/controller/control_tareas.dart';
 import 'package:app_tdah/controller/control_usuarios.dart';
 import 'package:app_tdah/controller/control_examenes.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 // Controladores:
 final controlTareas = ControladorTareas();
@@ -29,4 +31,10 @@ Future<String> getDificultad(int id) async{
   String dificultad = resultado[0]['tareas']['dificultad'];
 
   return dificultad;
+}
+
+String encriptarContrasena(String contrasena) {
+  var bytes = utf8.encode(contrasena);
+  var digest = sha256.convert(bytes);
+  return digest.toString().substring(0, 20);
 }

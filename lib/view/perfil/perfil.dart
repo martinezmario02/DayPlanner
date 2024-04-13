@@ -88,7 +88,7 @@ class _PerfilState extends State<Perfil> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ModificarAvatar(estrellas: usuario['usuarios']['estrellas'])));
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                        child: const Text('CAMBIAR AVATAR', style: TextStyle(color: Colors.white))
+                        child: Text('CAMBIAR AVATAR', style: TextStyle(color: Colors.white, fontSize: widthPantalla*0.035))
                       ),
                       const SizedBox(height: 10),
                       ElevatedButton(
@@ -96,7 +96,7 @@ class _PerfilState extends State<Perfil> {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ModificarPerfil(nombre: usuario['usuarios']['nombre'], ciudad: usuario['usuarios']['direccion'], colegio: usuario['usuarios']['colegio'])));
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                        child: const Text('CAMBIAR DATOS', style: TextStyle(color: Colors.white))
+                        child: Text('CAMBIAR DATOS', style: TextStyle(color: Colors.white, fontSize: widthPantalla*0.035))
                       ),
                       
                     ]

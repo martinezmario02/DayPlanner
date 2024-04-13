@@ -364,7 +364,7 @@ class _AgendaState extends State<Agenda> {
                               //     )
                               //   ],
                               // ) 
-                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.045, color: Colors.black)))
+                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                             ),
                           )
                         ),

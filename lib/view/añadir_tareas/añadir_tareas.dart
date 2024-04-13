@@ -280,7 +280,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
                               //     )
                               //   ],
                               // ) 
-                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.035, color: Colors.black)))
+                              child: Center(child: Text('Todo', style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.03, color: Colors.black)))
                             ),
                           )
                         ),

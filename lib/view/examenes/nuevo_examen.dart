@@ -19,7 +19,7 @@ class _NuevoExamenState extends State<NuevoExamen> {
   DateTime fecha = DateTime.now();
   List<String> opcionesDificultad = ['alta', 'media', 'baja'];
   String? dificultad;
-  String alerta ='';
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -73,97 +73,119 @@ class _NuevoExamenState extends State<NuevoExamen> {
           margin: const EdgeInsets.all(30.0),
           child: Center(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(alerta, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.red)),
-                  const SizedBox(height: 20),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 20),
 
-                  TextField(
-                    controller: controlAsignatura,
-                    decoration: const InputDecoration(
-                      labelText: 'Asignatura', 
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.white,
-                      filled: true,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  TextField(
-                    controller: controlTemario,
-                    decoration: const InputDecoration(
-                      labelText: 'Temario', 
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.white,
-                      filled: true,
-                    ),  
-                  ),
-                  const SizedBox(height: 20),
-
-                  TextField(
-                    controller: controlFecha,
-                    onTap: () => seleccionarFecha(context),
-                    decoration: const InputDecoration(
-                      labelText: 'Fecha',
-                      border: OutlineInputBorder(),
-                      fillColor: Colors.white,
-                      filled: true,
-                      suffixIcon: Icon(Icons.calendar_today),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  Container(
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: InputDecorator(
+                    TextFormField(
+                      controller: controlAsignatura,
                       decoration: const InputDecoration(
-                        labelText: 'Dificultad',
+                        labelText: 'Asignatura', 
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
+                        filled: true,
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          isDense: true,
-                          value: dificultad,
-                          items: opcionesDificultad.map((e) => DropdownMenuItem<String>(
-                            value: e,
-                            child: Text(e.substring(0,1).toUpperCase() + e.substring(1).toLowerCase(), overflow: TextOverflow.visible,),
-                          )).toList(),
-                          onChanged: (e) => setState(() {
-                            dificultad = e;
-                          }),
+                      validator: (value){
+                        if(controlAsignatura.text.isEmpty){
+                          return 'Debes introducir la asignatura';
+                        }
+                        return null;
+                      }
+                    ),
+                    const SizedBox(height: 20),
+
+                    TextFormField(
+                      controller: controlTemario,
+                      decoration: const InputDecoration(
+                        labelText: 'Temario', 
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        filled: true,
+                      ),  
+                      validator: (value){
+                        if(controlTemario.text.isEmpty){
+                          return 'Debes introducir el temario';
+                        }
+                        return null;
+                      }
+                    ),
+                    const SizedBox(height: 20),
+
+                    TextFormField(
+                      controller: controlFecha,
+                      onTap: () => seleccionarFecha(context),
+                      decoration: const InputDecoration(
+                        labelText: 'Fecha',
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      validator: (value){
+                        if(controlFecha.text.isEmpty){
+                          return 'Debes introducir la fecha';
+                        }
+                        return null;
+                      }
+                    ),
+                    const SizedBox(height: 20),
+
+                    Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'Dificultad',
+                          border: OutlineInputBorder(),
+                          fillColor: Colors.white,
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            isDense: true,
+                            value: dificultad,
+                            items: opcionesDificultad.map((e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e.substring(0,1).toUpperCase() + e.substring(1).toLowerCase(), overflow: TextOverflow.visible,),
+                            )).toList(),
+                            onChanged: (e) => setState(() {
+                              dificultad = e;
+                            }),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-          
-                  ElevatedButton(
-                    onPressed: (){
-                      DateTime fecha = DateTime.parse(controlFecha.text);
-                      if(controlAsignatura.text.isEmpty || controlFecha.text.isEmpty || controlTemario.text.isEmpty){
-                        setState(() {
-                          alerta = 'Debe rellenar todos los campos.';
-                        });
-                      } else if(fecha.isBefore(DateTime.now())){
-                        setState(() {
-                          alerta = 'La fecha desbe ser posterior a hoy.';
-                        });
-                      } else{
-                        guardarExamen();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Examenes()));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
-                    child: const Text('GUARDAR', style: TextStyle(color: Colors.white))
-                  )
-                ]
+                    const SizedBox(height: 20),
+            
+                    ElevatedButton(
+                      onPressed: (){
+                        if(formKey.currentState!.validate()){
+                          DateTime fecha = DateTime.parse(controlFecha.text);
+                          if(fecha.isBefore(DateTime.now())){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('La fecha deber ser posterior a hoy')),
+                            );
+                          } else if(dificultad?.isEmpty ?? true){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Debes rellenar todos los campos')),
+                            );
+                          } else{
+                            guardarExamen();
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const Examenes()));
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
+                      child: const Text('GUARDAR', style: TextStyle(color: Colors.white))
+                    )
+                  ]
+                )
               )
             )
           )

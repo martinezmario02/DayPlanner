@@ -132,8 +132,17 @@ class _AnadirPasoState extends State<AnadirPaso> {
                     const SizedBox(width: 20),
                     ElevatedButton(
                       onPressed: (){
-                        guardarTarea();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AnadirTarea()));
+                        if(controlPaso.isNotEmpty && controlPaso[0].text != ''){
+                          guardarTarea();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Tarea guardada')),
+                          );
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AnadirTarea()));
+                        } else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Debes añadir algún paso')),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 118, 39)),
                       child: const Text('GUARDAR', style: TextStyle(color: Colors.white))

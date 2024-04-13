@@ -88,4 +88,47 @@ class ControladorTareas{
   Future<void> borrarTarea(int id) async{
     await db.borrarTarea(id);
   }
+
+  // Devolver número de tareas realizadas:
+  Future<int> numeroRealizadas(int id) async{
+    return await db.numeroRealizadas(id);
+  }
+
+  // Devolver número de tareas pendientes:
+  Future<int> numeroPendientes(int id) async{
+    return await db.numeroPendientes(id);
+  }
+
+  // Devolver el tiempo empleado en las tareas:
+  Future<double> tiempoEmpleado(int id) async{
+    return await db.tiempoEmpleado(id);
+  }
+
+  // Devolver el tiempo estimado en las tareas:
+  Future<double> tiempoEstimado(int id) async{
+    return await db.tiempoEstimado(id);
+  }
+
+  // Devolver las tareas realizadas:
+  Future<List<Map<String, dynamic>>> tareasRealizadas(int usuario, String dia) async{
+    return await db.tareasRealizadas(usuario, dia);
+  }
+
+  // Devolver las tareas realizadas:
+  Future<List<Map<String, dynamic>>> tareasPendientes(int usuario, String dia) async{
+    return await db.tareasPendientes(usuario, dia);
+  }
+
+  // Devolver el número de pasos en función del tipo:
+  Future<List<Map<String, dynamic>>> getNumPasosColegio(int id) async{
+    return await db.getNumPasosColegio(id);
+  }
+
+  Future<List<Map<String, dynamic>>> getNumPasosOcio(int id) async{
+    return await db.getNumPasosOcio(id);
+  }
+
+  Future<List<Map<String, dynamic>>> getNumPasosHogar(int id) async{
+    return await db.getNumPasosHogar(id);
+  }
 }

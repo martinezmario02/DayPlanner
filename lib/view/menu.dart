@@ -1,10 +1,12 @@
 import 'package:app_tdah/view/a%C3%B1adir_tareas/a%C3%B1adir_tareas.dart';
+import 'package:app_tdah/view/evaluacion/evaluacion.dart';
 import 'package:app_tdah/view/examenes/examenes.dart';
 import 'package:flutter/material.dart';
 import 'agenda/agenda.dart';
 import 'organizacion/organizar_semana.dart';
 import 'perfil/perfil.dart';
 import '../main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuPrincipal extends StatefulWidget{
   const MenuPrincipal({super.key});
@@ -14,6 +16,12 @@ class MenuPrincipal extends StatefulWidget{
 }
 
 class _MenuState extends State<MenuPrincipal> {
+  
+  void cerrarSesion() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('idUsuario');
+  }
+
   @override
   Widget build(BuildContext context){
     double widthPantalla = MediaQuery.of(context).size.width;
@@ -24,6 +32,7 @@ class _MenuState extends State<MenuPrincipal> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: (){
+            cerrarSesion();
             Navigator.push(context, MaterialPageRoute(builder: (context) => const Inicio()));
           },  
         ),
@@ -133,7 +142,7 @@ class _MenuState extends State<MenuPrincipal> {
                           fit: BoxFit.scaleDown,
                           child: ElevatedButton(
                             onPressed: (){
-                              //Navigator.push(context, MaterialPageRoute(builder: (context) => const AnadirTarea()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const Evaluacion()));
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),

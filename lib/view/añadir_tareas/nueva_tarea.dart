@@ -41,7 +41,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/libro.png',  width: 100, height: 100),
+                          Image.asset('assets/icons/libro.png',  width: 70, height: 70),
                           const Text('COLEGIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
                         ],
                       )
@@ -64,7 +64,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/casa.png',  width: 100, height: 100),
+                          Image.asset('assets/icons/casa.png',  width: 70, height: 70),
                           const Text('HOGAR', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
                         ],
                       )
@@ -91,7 +91,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/pelota.png',  width: 100, height: 100),
+                          Image.asset('assets/icons/pelota.png',  width: 70, height: 70),
                           const Text('OCIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
                         ],
                       )
