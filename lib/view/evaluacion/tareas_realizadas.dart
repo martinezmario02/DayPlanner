@@ -95,28 +95,6 @@ class _TareasRealizadasState extends State<TareasRealizadas> {
                       tareas[index][tipoT]['id_usuario']
                     );
 
-                    // Duración:
-                    // String duracion;
-                    // int valor;
-                    // int valor2;
-                    // if(tarea.tiempo >= 60.0){
-                    //   valor = int.parse((tarea.tiempo/60.0).toStringAsFixed(0));
-                    //   valor2 = int.parse((tarea.tiempo%60.0).toStringAsFixed(0));
-
-                    //   if(valor2 != 0){
-                    //     duracion = '$valor h $valor2 min';
-                    //   } else{
-                    //     duracion = '$valor h';
-                    //   }
-                      
-                    // } else if(tarea.tiempo < 1){
-                    //   valor = int.parse((tarea.tiempo*60.0).toStringAsFixed(0));
-                    //   duracion = '$valor s';
-                    // } else{
-                    //   valor = int.parse(tarea.tiempo.toStringAsFixed(0));
-                    //   duracion = '$valor m';
-                    // }
-
                     return Column(
                       children: [
                         const SizedBox(height: 15),
@@ -171,7 +149,6 @@ class _TareasRealizadasState extends State<TareasRealizadas> {
                                         return Container(
                                           height: 70,
                                           color: fondo,
-                                          // child: Center(child: Text(duracion, style: TextStyle(fontFamily: 'Cuerpo', fontSize: widthPantalla*0.04, color: Colors.black)))
                                         );
                                       } else {
                                         return const CircularProgressIndicator(color: Color.fromARGB(255, 255, 118, 39));

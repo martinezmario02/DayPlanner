@@ -272,7 +272,7 @@ class _NuevoOcioCasaState extends State<NuevoOcioCasa> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('La fecha deber ser posterior a hoy')),
                             );
-                          } else if((tipoTarea?.isEmpty ?? true) || (dificultad?.isEmpty ?? true)){
+                          } else if((tipoTarea?.isEmpty ?? true) || (dificultad?.isEmpty ?? true)){                  
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Debes rellenar todos los campos')),
                             );
@@ -294,7 +294,7 @@ class _NuevoOcioCasaState extends State<NuevoOcioCasa> {
                               realizacion,
                               controlObjetivo.text,
                               controlDescripcion.text,
-                              'tareascolegio',
+                              tipo,
                               'pendiente',
                               0,
                               1,

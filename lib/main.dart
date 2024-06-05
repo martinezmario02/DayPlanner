@@ -4,10 +4,39 @@ import 'package:flutter/material.dart';
 import 'view/registro.dart';
 import 'view/padre.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
+import 'dart:async';
+
+// Función para actualizar las estrellas del usuario:
+void actualizarEstrellas() async{
+  Workmanager().executeTask((task, inputData) async{
+    List<Map<String, dynamic>> usuarios = await controlUsuario.getUsuarios();
+
+    for(int i = 0; i < usuarios.length; i++){
+      int id = usuarios[i]['usuarios']['id'];
+      Pair<List<dynamic>, int> info = await calcularEstrellas(id);
+      await controlUsuario.actualizarEstrellas(id, info.second);
+    }
+  
+    return Future.value(true);
+  });
+}
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(actualizarEstrellas);
+  Workmanager().registerPeriodicTask(
+    'task1',
+    'simpleTask',
+    frequency: Duration(days: 1), // Ejecutar cada día
+    initialDelay: Duration(hours: 12, minutes: 02), // Iniciar a las 11:22
+    constraints: Constraints(
+      networkType: NetworkType.connected, // Opcional, dependiendo de las necesidades de tu tarea
+    ),
+  );
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -40,7 +69,6 @@ class _InicioState extends State<Inicio>{
   final keyForm = GlobalKey<FormState>();
   final controlCorreo = TextEditingController();
   final controlContrasena = TextEditingController();
-  String alerta = '';
 
   @override
   void initState() {
@@ -64,16 +92,12 @@ class _InicioState extends State<Inicio>{
 
   Future<bool> validado() async{
     if(keyForm.currentState!.validate()){
-      int id = await controlUsuario.iniciarSesion(controlCorreo.text, controlContrasena.text);
+      int id = await controlUsuario.iniciarSesion(controlCorreo.text, encriptarContrasena(controlContrasena.text));
       if(id != -1){
         idUsuario = id;
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('idUsuario', id);
         return true;
-      }else{
-        setState(() {
-          alerta = "El email o la contraseña son incorrectos.";
-        });
       }
     }
     return false;
@@ -91,7 +115,6 @@ class _InicioState extends State<Inicio>{
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(alerta, style: const TextStyle(fontFamily: 'Cuerpo', fontSize: 20, color: Colors.red)),
                     const SizedBox(height: 20),
 
                     const Text('INICIO DE SESIÓN', style: TextStyle(fontFamily: 'Titulos', fontSize: 40, color: Color.fromARGB(255, 255, 118, 39))),
@@ -141,7 +164,15 @@ class _InicioState extends State<Inicio>{
                           ElevatedButton(
                             onPressed: () async{
                               if(await validado()){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Se ha iniciado sesión correctamente')),
+                                );
+
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const MenuPrincipal()));
+                              } else{
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('No se ha podido iniciar sesión')),
+                                );
                               }
                               
                             },

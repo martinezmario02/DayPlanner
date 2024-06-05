@@ -32,8 +32,31 @@ class _MenuState extends State<MenuPrincipal> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: (){
-            cerrarSesion();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Inicio()));
+            showDialog(
+              context: context, 
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: const Text('CIERRE DE SESIÓN'),
+                  content: const Text('¿Seguro que quieres cerrar sesión?'),
+                  actions: [
+                    TextButton(
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                        cerrarSesion();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Inicio()));
+                      },
+                      child: const Text('Sí', style: TextStyle(color: Color.fromARGB(255, 255, 118, 39)))
+                    ),
+                    TextButton(
+                      onPressed: (){
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('No', style: TextStyle(color: Color.fromARGB(255, 255, 118, 39)))
+                    ),
+                  ]
+                );
+              }
+            );
           },  
         ),
       ),

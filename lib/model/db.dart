@@ -315,6 +315,12 @@ class DB{
     return resultado[0];
   }
 
+  // Función que devuelve los ids de todos los usuarios:
+  Future<List<Map<String, dynamic>>> getUsuarios() async{
+    var resultado = await ejecutar("select id from usuarios");
+    return resultado;
+  }
+
   // Función para modificar los datos del perfil de un usuario:
   Future<void> modificarPerfil(int id, String nombre, String ciudad, String colegio) async{
     await ejecutar("update usuarios set nombre='$nombre', direccion='$ciudad', colegio='$colegio' where id=$id");
@@ -333,6 +339,11 @@ class DB{
   // Función para registrar un usuario:
   Future<void> guardarUsuario(String nombre, String correo, String fecha, String ciudad, String centro, String contrasena) async{
     await ejecutar("insert into usuarios (nombre, correo, nacimiento, direccion, colegio, contrasena) values ('$nombre', '$correo', TO_DATE('$fecha', 'YYYY-MM-DD'), '$ciudad', '$centro', '$contrasena')");
+  }
+
+  // Función para actualizar el número de estrellas:
+  Future<void> actualizarEstrellas(int id, int numero) async{
+    await ejecutar("update usuarios set estrellas=estrellas+$numero where id=$id");
   }
 
   /////////////////////////////////////////////////////////////////

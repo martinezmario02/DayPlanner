@@ -13,6 +13,11 @@ class ControladorUsuarios{
     return await db.getUsuario(id);
   }
 
+  // Función que devuelve los ids de todos los usuarios:
+  Future<List<Map<String, dynamic>>> getUsuarios() async{
+    return await db.getUsuarios();
+  }
+
   // Función para modificar los datos del perfil de un usuario:
   Future<void> modificarPerfil(int id, String nombre, String ciudad, String colegio) async{
     return await db.modificarPerfil(id, nombre, ciudad, colegio);
@@ -31,5 +36,10 @@ class ControladorUsuarios{
   // Función para registrar un usuario:
   Future<void> guardarUsuario(String nombre, String correo, String fecha, String ciudad, String centro, String contrasena) async{
     return await db.guardarUsuario(nombre, correo, fecha, ciudad, centro, contrasena);
+  }
+
+  // Función para actualizar el número de estrellas:
+  Future<void> actualizarEstrellas(int id, int numero) async{
+    return await db.actualizarEstrellas(id, numero);
   }
 }

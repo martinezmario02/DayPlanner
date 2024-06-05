@@ -22,10 +22,7 @@ class _EvaluacionState extends State<Evaluacion> {
   Color c2 = const Color.fromRGBO(128, 236, 128, 1);
   double porcentajeTareas = 0.0;
   double porcentajeTiempo = 0.0;
-  List<String> recomendaciones = [];
-  List<String> dificultades = [];
-  List<int> numPasos = [];
-  int estrellas = 0;
+  List<dynamic> recomendaciones = [];
   Color e1 = Colors.black;
   Color e2 = Colors.black;
   Color e3 = Colors.black;
@@ -36,30 +33,7 @@ class _EvaluacionState extends State<Evaluacion> {
     final pendientes = await controlTareas.numeroPendientes(idUsuario);
     final empleado = await controlTareas.tiempoEmpleado(idUsuario);
     final estimado = await controlTareas.tiempoEstimado(idUsuario);
-
-    String year = dia.year.toString();
-    String month = dia.month.toString().padLeft(2, '0'); // padLeft introduce un 0 en caso de tener un solo dígito
-    String day = dia.day.toString().padLeft(2, '0');
-    String fecha = '$year-$month-$day';
-    var tareas = await controlTareas.tareasDia(fecha, idUsuario);
-
-    for(var tarea in tareas){
-      int id = tarea['tareas']['id'];
-      String tipo = tarea['tareas']['tipo_tarea'];
-      String dificultad = (await controlTareas.getDificultad(id))[0]['tareas']['dificultad'];
-      var resultado;
-      if(tipo == 'tareascolegio'){
-        resultado = await controlTareas.getNumPasosColegio(id); 
-      }else if(tipo == 'tareasocio'){
-        resultado = await controlTareas.getNumPasosOcio(id);
-      }else{
-        resultado = await controlTareas.getNumPasosHogar(id);
-      }
-      int pasos = resultado[0]['']['count'];
-
-      dificultades.add(dificultad);
-      numPasos.add(pasos);
-    }
+    Pair<List<dynamic>, int> infoEstrellas = await calcularEstrellas(idUsuario);
 
     setState(() {
       // Información sobre las tareas:
@@ -80,81 +54,20 @@ class _EvaluacionState extends State<Evaluacion> {
       }
       porcentajeTiempo = (t1/t2).clamp(0.0, 1.0);
 
-      // Información sobre las recomendaciones:
-      if(numPendientes > 0){
-        recomendaciones.add("- Debes poner un número de tareas que puedas realizar.");
-      }
-
-      if(t2-t1 > t2*0.2){
-        recomendaciones.add("- Debes indicar un tiempo realista, ni mucho ni poco.");
-      }
-
-      int contador = 0;
-      for(int paso in numPasos){
-        if(paso == 1){
-          contador++;
-        }
-      }
-
-      if(contador >= (numPendientes+numRealizadas)*0.5){
-        recomendaciones.add("- Debes dividir las tareas en más de un paso.");
-      }
-
-      contador = 0;
-      for(int paso in numPasos){
-        if(paso >= 5){
-          contador++;
-        }
-      }
-
-      if(contador >= (numPendientes+numRealizadas)*0.5){
-        recomendaciones.add("- No debes poner demasiados pasos en las tareas.");
-      }
-
-      int dificil = 0;
-      int facil = 0;
-      for(String dificultad in dificultades){
-        if(dificultad == 'alta'){
-          dificil++;
-        } else if(dificultad == 'baja'){
-          facil++;
-        }
-      }
-
-      if(dificil >= (numPendientes+numRealizadas)*0.5){
-        recomendaciones.add("- No debes poner demasiadas tareas difíciles el mismo día.");
-      }
-
-      if(facil >= (numPendientes+numRealizadas)*0.8){
-        recomendaciones.add("- No debes poner solo tareas fáciles en un día.");
-      }
-
+      recomendaciones = infoEstrellas.first;
       if(recomendaciones.isEmpty){
-        recomendaciones.add("No hay ninguna recomendación actualmente.");
+        recomendaciones.add("No has planificado ninguna tarea para hoy");
       }
 
-      // Recuento de estrellas:
-      if(numPendientes < numRealizadas){
-        estrellas++;
-      }
-
-      if(numPendientes == 0 && numRealizadas > 0){
-        estrellas++;
-      }
-
-      if(recomendaciones.isEmpty){
-        estrellas++;
-      }
-
-      if(estrellas > 0){
+      if(infoEstrellas.second > 0){
         e1 = const Color.fromARGB(255, 255, 118, 39);
       }
       
-      if(estrellas > 1){
+      if(infoEstrellas.second > 1){
         e2 = const Color.fromARGB(255, 255, 118, 39);
       }
 
-      if(estrellas > 3){
+      if(infoEstrellas.second > 3){
         e3 = const Color.fromARGB(255, 255, 118, 39);
       }
 
@@ -271,7 +184,7 @@ class _EvaluacionState extends State<Evaluacion> {
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
                               alignment: Alignment.centerLeft,
-                              child: Text('${t2-t1}m', style: const TextStyle(color: Colors.white),
+                              child: Text('${(t2-t1).toStringAsFixed(1)}m', style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ),

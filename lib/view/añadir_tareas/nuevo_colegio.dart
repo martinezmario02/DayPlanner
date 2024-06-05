@@ -271,28 +271,6 @@ class _NuevoColegioState extends State<NuevoColegio> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // RawKeyboardListener(
-                    //   focusNode: FocusNode(),
-                    //   onKey: (RawKeyEvent event) {
-                    //     if (event is RawKeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
-                    //       // Oculta el teclado cuando se presiona Enter
-                    //       FocusScope.of(context).unfocus();
-                    //     }
-                    //   },
-                    //   child: TextField(
-                    //     controller: controlObjetivo,
-                    //     maxLines: 3,
-                    //     decoration: const InputDecoration(
-                    //       labelText: 'Objetivo de la tarea', 
-                    //       border: OutlineInputBorder(),
-                    //       fillColor: Colors.white,
-                    //       filled: true,
-                    //     ),
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 20),
-
                     ElevatedButton(
                       onPressed: (){
                         if(formKey.currentState!.validate()){

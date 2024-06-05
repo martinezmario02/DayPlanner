@@ -215,9 +215,9 @@ class _RegistroState extends State<RegistroUsuario> {
                     const SizedBox(height: 20),
 
                     ElevatedButton(
-                      onPressed: (){
+                      onPressed: () async{
                         if(formKey.currentState!.validate()){
-                          comprobarCorreo();
+                          await comprobarCorreo();
                           if(correoCorrecto){
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Usuario registrado')),

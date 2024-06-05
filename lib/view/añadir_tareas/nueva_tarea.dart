@@ -41,8 +41,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/libro.png',  width: 70, height: 70),
-                          const Text('COLEGIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                          Image.asset('assets/icons/libro.png', width: widthPantalla*0.2, height: widthPantalla*0.2),
+                          Text('COLEGIO', style: TextStyle(fontFamily: 'Titulos', fontSize:widthPantalla*0.06, color: Colors.white))
                         ],
                       )
                       
@@ -64,8 +64,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/casa.png',  width: 70, height: 70),
-                          const Text('HOGAR', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                          Image.asset('assets/icons/casa.png', width: widthPantalla*0.2, height: widthPantalla*0.2),
+                          Text('HOGAR', style: TextStyle(fontFamily: 'Titulos', fontSize: widthPantalla*0.06, color: Colors.white))
                         ],
                       )
                       
@@ -91,8 +91,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset('assets/icons/pelota.png',  width: 70, height: 70),
-                          const Text('OCIO', style: TextStyle(fontFamily: 'Titulos', fontSize:25, color: Colors.white))
+                          Image.asset('assets/icons/pelota.png', width: widthPantalla*0.2, height: widthPantalla*0.2),
+                          Text('OCIO', style: TextStyle(fontFamily: 'Titulos', fontSize: widthPantalla*0.06, color: Colors.white))
                         ],
                       )
                     ),
