@@ -40,6 +40,11 @@ class DB{
     return await ejecutar("select * from tareas where id_usuario=$usuario");
   }
 
+  // Devolver todas las tareas pendientes:
+  Future<List<Map<String, dynamic>>> tareasPendientesTotal(int usuario) async{
+    return await ejecutar("select * from tareas where id_usuario=$usuario and estado<>'realizada'");
+  }
+
   // Devolver todas las tareas de un día concreto:
   Future<List<Map<String, dynamic>>> tareasDia(String dia, int usuario) async{
     return await ejecutar("select * from tareas where to_char(organizacion,'yyyy-mm-dd') = '$dia' and id_usuario=$usuario order by prioridad asc");
@@ -48,11 +53,11 @@ class DB{
   // Devolver todas las tareas de un tipo concreto:
   Future<List<Map<String, dynamic>>> tareasTipo(int tipo, int usuario) async{
     if(tipo == 0){
-      return await ejecutar("select * from tareascolegio where id_usuario=$usuario");
+      return await ejecutar("select * from tareascolegio where id_usuario=$usuario and estado<>'realizada'");
     }else if(tipo == 1){
-      return await ejecutar("select * from tareasocio where id_usuario=$usuario");
+      return await ejecutar("select * from tareasocio where id_usuario=$usuario and estado<>'realizada'");
     }else{
-      return await ejecutar("select * from tareashogar where id_usuario=$usuario");
+      return await ejecutar("select * from tareashogar where id_usuario=$usuario and estado<>'realizada'");
     }
   }
 

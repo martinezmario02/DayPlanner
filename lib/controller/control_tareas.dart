@@ -9,6 +9,11 @@ class ControladorTareas{
     return await db.tareas(usuario);
   }
 
+  // Devolver todas las tareas pendientes:
+  Future<List<Map<String, dynamic>>> tareasPendientesTotal(int usuario) async{
+    return await db.tareasPendientesTotal(usuario);
+  }
+
   // Devolver todas las tareas de un día concreto:
   Future<List<Map<String, dynamic>>> tareasDia(String dia, int usuario) async{
     return await db.tareasDia(dia, usuario);

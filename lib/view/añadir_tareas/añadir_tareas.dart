@@ -16,7 +16,7 @@ class _AnadirTareaState extends State<AnadirTarea> {
   String tipoT = '';
 
   Future<void> getTareas() async{
-    var t = await controlTareas.tareas(idUsuario);
+    var t = await controlTareas.tareasPendientesTotal(idUsuario);
     
     setState(() {
       tareas = t;
