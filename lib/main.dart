@@ -29,9 +29,9 @@ void main() {
     'task1',
     'simpleTask',
     frequency: Duration(days: 1), // Ejecutar cada día
-    initialDelay: Duration(hours: 12, minutes: 02), // Iniciar a las 11:22
+    initialDelay: Duration(hours: 00, minutes: 00), // Iniciar a las 00:00
     constraints: Constraints(
-      networkType: NetworkType.connected, // Opcional, dependiendo de las necesidades de tu tarea
+      networkType: NetworkType.connected,
     ),
   );
   runApp(const MyApp());
@@ -41,7 +41,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
